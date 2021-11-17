@@ -1,8 +1,6 @@
 package raytracer;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main {
 //	//			"        -test     - run in test mode (see below)\n"+
@@ -32,7 +30,8 @@ public class Main {
 //	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		api.createView("0,1,0");
+		Api apimade = new Api();
+		apimade.createView("0,1,0", "0,0,0", "0,1,0", 20);
 //		if(args.length < 4) {
 //			printUsage();
 //			System.exit(0);
