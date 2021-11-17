@@ -1,13 +1,14 @@
 package raytracer;
 
-import raytracer.*;
 import raytracer.pigments.Finish;
 import raytracer.pigments.Pigment;
+import raytracer.pigments.SolidPigment;
 import raytracer.shapes.Shape;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Api {
@@ -22,21 +23,21 @@ public class Api {
 
     void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
         //Created the 3d position of the eye point
-        List<Double> eyePositionList = createPointVals(eyePosition);
+        List<Double> eyePositionList = createDoubleVals(eyePosition);
         Double eyePositionX = eyePositionList.get(0);
         Double eyePositionY = eyePositionList.get(1);
         Double eyePositionZ = eyePositionList.get(2);
         Point eyepositionPoint  = new Point(eyePositionX, eyePositionY, eyePositionZ);
 
         //Created the center of scene point
-        List<Double> centerOfSceneList = createPointVals(centerOfScene);
+        List<Double> centerOfSceneList = createDoubleVals(centerOfScene);
         Double centerOfSceneX = centerOfSceneList.get(0);
         Double centerOfSceneY = centerOfSceneList.get(1);
         Double centerOfSceneZ = centerOfSceneList.get(2);
         Point centerOfScenePoint  = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
 
         //Created the up direction point
-        List<Double> upDirList = createPointVals(upDirection);
+        List<Double> upDirList = createDoubleVals(upDirection);
         Double upDirListX = upDirList.get(0);
         Double upDirListY = upDirList.get(1);
         Double upDirListZ = upDirList.get(2);
@@ -47,29 +48,21 @@ public class Api {
 
     void createLight(String lightPosition, String color, String attenuationFactor){
         //Created the 3d position of the light
-        List<Double> positionList = createPointVals(lightPosition);
+        List<Double> positionList = createDoubleVals(lightPosition);
         Double lightPositionX = positionList.get(0);
         Double lightPositionY = positionList.get(1);
         Double lightPositionZ = positionList.get(2);
         Point lightPositionPoint  = new Point(lightPositionX, lightPositionY, lightPositionZ);
 
         //Created the rgb values
-        String[] rgbSplit = color.split(",");
-        List<Float> rgbFloatList = new ArrayList<>();
-        for (String number : rgbSplit) {
-            rgbFloatList.add(Float.parseFloat(number.trim()));
-        }
+        List<Float> rgbFloatList = createFloatVals(color);
         float red = rgbFloatList.get(0);
         float green = rgbFloatList.get(1);
         float blue = rgbFloatList.get(2);
         Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
 
         //Created the attenuation factor
-        String[] afSplit = attenuationFactor.split(",");
-        List<Float> afFloatList = new ArrayList<>();
-        for (String number : afSplit) {
-            afFloatList.add(Float.parseFloat(number.trim()));
-        }
+        List<Float> afFloatList = createFloatVals(attenuationFactor);
         float attenuationFactorA = afFloatList.get(0);
         float attenuationFactorB = afFloatList.get(1);
         float attenuationFactorC = afFloatList.get(2);
@@ -83,7 +76,23 @@ public class Api {
 
     }
 
-    private List<Double> createPointVals(String stringPoints){
+    void createPigment(String pigmentType, String color){
+        List<Float> rgbFloatList = createFloatVals(color);
+        float red = rgbFloatList.get(0);
+        float green = rgbFloatList.get(1);
+        float blue = rgbFloatList.get(2);
+        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
+
+        if (Objects.equals(pigmentType, "Solid")){
+            pigmentsList.add(new SolidPigment(rgbColor));
+        }
+
+    }
+
+    void createFinish(float ambient, )
+
+
+    private List<Double> createDoubleVals(String stringPoints){
         String[] pointsSplit = stringPoints.split(",");
         List<Double> pointsDoubleList = new ArrayList<>();
         for (String number : pointsSplit) {
@@ -91,6 +100,20 @@ public class Api {
         }
         return pointsDoubleList;
     }
+
+    private List<Float> createFloatVals(String stringPoints){
+        String[] strSplit = stringPoints.split(",");
+        List<Float> valFloatList = new ArrayList<>();
+        for (String number : strSplit) {
+            valFloatList.add(Float.parseFloat(number.trim()));
+        }
+        return valFloatList;
+    }
+
+
+
+
+
 
 
 
