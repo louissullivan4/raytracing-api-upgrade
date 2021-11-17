@@ -1,5 +1,6 @@
 package raytracer;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Main {
@@ -20,7 +21,7 @@ public class Main {
 //			        -multi    - use multi-threading (good for large, anti-aliased images)""";
 ////			"        -nocap    - cylinders and cones are infinite";
 //
-//	public static boolean DEBUG = false;
+	//public static boolean DEBUG = false;
 	public static boolean ANTI_ALIAS = false;
 	public static boolean MULTI_THREAD = false;
 //
@@ -30,46 +31,21 @@ public class Main {
 //	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
-		Api apimade = new Api();
-		apimade.createView("0,1,0", "0,0,0", "0,1,0", 20);
-//		if(args.length < 4) {
-//			printUsage();
-//			System.exit(0);
-//		}
-//
-//		// required arguments
-//		File inFile = new File(args[0]);
-//		File outFile = new File(args[1]);
-//		int cols = Integer.parseInt(args[2]);
-//		int rows = Integer.parseInt(args[3]);
-//
-//		// optional arguments
-//		int i = 0;
-//		for(String arg: args) {
-//			if(i++ < 4) continue;
-//			if("-test".equals(arg)) {
-//				DEBUG = true;
-//			} else if("-aa".equals(arg)) {
-//				ANTI_ALIAS = true;
-//			} else if("-multi".equals(arg)) {
-//				MULTI_THREAD = true;
-//			} else {
-//				System.out.print("Unrecognized option: '" + arg + "' ignored.");
-//			}
-//		}
-//
-//		RayTracer rayTracer = new RayTracer(cols, rows);
-//		rayTracer.readScene(inFile);
-//		if(DEBUG) {
-//			while(true) {
-//				Scanner scanner = new Scanner(System.in);
-//				System.out.println("Input column and row of pixel (relative to upper left corner):");
-//				int col = scanner.nextInt();
-//				int row = scanner.nextInt();
-//				rayTracer.getPixelColor(col, row);
-//			}
-//		} else {
-//			rayTracer.draw(outFile);
-//		}
+
+
+		// required arguments
+		File outFile = new File(args[0]);
+		int cols = Integer.parseInt(args[1]);
+		int rows = Integer.parseInt(args[2]);
+
+
+		Api apimade = new Api(cols, rows);
+		apimade.createView("0,0,0", "0,0,-1", "0,1,0", 30);
+		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");
+		apimade.createPigment("solid", "1,0,0");
+		apimade.createFinish(0.4f, 0.6f, 0.0f, 1, 0, 0, 0);
+		apimade.createShape("sphere", 0, 1, "3, 3, -15", 1);
+
+		apimade.draw(outFile);
 	}
 }
