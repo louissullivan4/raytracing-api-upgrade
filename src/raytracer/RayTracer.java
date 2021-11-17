@@ -35,7 +35,8 @@ public class RayTracer {
 		// ambient light source
 		Light light = lights.get(0);
 		if(light != null && hit.shape.finish.amb > 0) {
-			color = ColorUtil.blend(color, ColorUtil.intensify(hit.shape.getColor(hit.point), light.getColor(hit, null)));
+			color = ColorUtil.blend(color, ColorUtil.intensify(hit.shape.getColor(hit.point),
+					light.getColor(hit, null)));
 		}
 
 		for(int i = 1;i < lights.size();i++) {
@@ -135,11 +136,7 @@ public class RayTracer {
 				for(int c = 0;c < cols; c++) {
 					final int cc = c;
 					final int rr = r;
-					executor.execute(new Runnable() {
-						public void run() {
-							image.setRGB(cc, rr, getPixelColor(cc, rr).getRGB());
-						}
-					});
+					executor.execute(() -> image.setRGB(cc, rr, getPixelColor(cc, rr).getRGB()));
 				}
 			}
 
