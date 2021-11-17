@@ -17,7 +17,6 @@ public class Api {
 
     private int cols, rows;
     private Camera camera;
-    Shape shape;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
     private final ArrayList<Finish> finishesList = new ArrayList<>();
@@ -97,6 +96,7 @@ public class Api {
     }
 
     void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, int shapeSize){
+        Shape shape;
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             Double shapePositionX = positionList.get(0);
@@ -112,6 +112,8 @@ public class Api {
             Double shapePositionZ = positionList.get(2);
             shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSize);
         }
+        shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
+        shapesList.add(shape);
     }
 
 
