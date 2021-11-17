@@ -17,11 +17,6 @@ public class ColorUtil {
 		return Math.max(0.0f, Math.min(1.0f, x));
 	}
 
-	public static Color intensify(Color color, float intensity) {
-		// TODO: clamp should not be necessary here
-		return intensify(color, new Color(clamp(intensity), clamp(intensity), clamp(intensity)));
-	}
-
 	public static Color intensify(Color color, Color intensity) {
 		float[] c = color.getRGBColorComponents(null);
 		float[] i = intensity.getRGBColorComponents(null);
