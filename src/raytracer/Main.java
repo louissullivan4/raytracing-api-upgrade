@@ -5,20 +5,21 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
-	private static final String USAGE = "Usage:\n"+
-			"java -cp src raytracer.Main infile bmpfile width height [-options]\n"+
-			"\n"+
-			"    where:\n"+
-			"        infile    - input file name\n"+
-			"        bmpfile   - bmp output file name\n"+
-			"        width     - image width (in pixels)\n"+
-			"        height    - image hreight (in pixels)\n"+
-//			"        -test     - run in test mode (see below)\n"+
-//			"        -noshadow - don't compute shadows\n"+
-//			"        -noreflec - don't do reflections\n"+
-//			"        -notrans  - don't do transparency\n"+
-			"        -aa       - use anti-aliasing (~4x slower)\n"+
-			"        -multi    - use multi-threading (good for large, anti-aliased images)";
+	//			"        -test     - run in test mode (see below)\n"+
+	//			"        -noshadow - don't compute shadows\n"+
+	//			"        -noreflec - don't do reflections\n"+
+	//			"        -notrans  - don't do transparency\n"+
+	private static final String USAGE = """
+			Usage:
+			java -cp src raytracer.Main infile bmpfile width height [-options]
+
+			    where:
+			        infile    - input file name
+			        bmpfile   - bmp output file name
+			        width     - image width (in pixels)
+			        height    - image hreight (in pixels)
+			        -aa       - use anti-aliasing (~4x slower)
+			        -multi    - use multi-threading (good for large, anti-aliased images)""";
 //			"        -nocap    - cylinders and cones are infinite";
 
 	public static boolean DEBUG = false;
