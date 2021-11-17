@@ -12,7 +12,6 @@ public class Camera {
 
 	private final double rows;
 	private final double cols;
-//	private double fovy, fovx;
 
 	public Camera(Point eye, Point center, Vector up, double fovy, int cols, int rows) {
 		fovy = Math.toRadians(fovy);
@@ -33,9 +32,9 @@ public class Camera {
 
 		Log.debug("  Viewframe:");
 		Log.debug("    Org: " + eye);
-		Log.debug("    X:   " + vx.toString());
-		Log.debug("    Y:   " + vy.toString());
-		Log.debug("    Z:   " + vz.toString());
+		Log.debug("    X:   " + vx);
+		Log.debug("    Y:   " + vy);
+		Log.debug("    Z:   " + vz);
 
 		Log.debug("    Window width: " + windowWidth);
 		Log.debug("          height: " + windowHeight);
@@ -80,7 +79,6 @@ public class Camera {
 		});
 
 		Matrix matrix = tInv.times(rT);
-		Vector v = matrix.times(new Vector(p.x, p.y, p.z));
-		return v;
+		return matrix.times(new Vector(p.x, p.y, p.z));
 	}
 }
