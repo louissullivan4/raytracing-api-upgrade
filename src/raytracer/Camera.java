@@ -30,14 +30,14 @@ public class Camera {
 		windowHeight = Math.sin(fovy / 2.0) * windowDistance * 2.0;
 		windowWidth = Math.sin(fovx / 2.0) * windowDistance * 2.0;
 
-		Log.debug("  Viewframe:");
-		Log.debug("    Org: " + eye);
-		Log.debug("    X:   " + vx);
-		Log.debug("    Y:   " + vy);
-		Log.debug("    Z:   " + vz);
-
-		Log.debug("    Window width: " + windowWidth);
-		Log.debug("          height: " + windowHeight);
+//		Log.debug("  Viewframe:");
+//		Log.debug("    Org: " + eye);
+//		Log.debug("    X:   " + vx);
+//		Log.debug("    Y:   " + vy);
+//		Log.debug("    Z:   " + vz);
+//
+//		Log.debug("    Window width: " + windowWidth);
+//		Log.debug("          height: " + windowHeight);
 	}
 
 	public Ray getRay(int col, int row) {
@@ -49,12 +49,12 @@ public class Camera {
 
 		Vector v = new Vector(eye, convertCoords(new Point(x, y, -windowDistance)));
 
-		Log.debug("  Generating ray:");
-		Log.debug("    Window coordinates: (" + x + ", " + y + ")");
-		Log.debug("    Passes through window point: " + v);
+//		Log.debug("  Generating ray:");
+//		Log.debug("    Window coordinates: (" + x + ", " + y + ")");
+//		Log.debug("    Passes through window point: " + v);
 
 		Ray ray = new Ray(eye, v);
-		Log.debug("    Final ray: " + ray);
+//		Log.debug("    Final ray: " + ray);
 
 		return ray;
 	}
