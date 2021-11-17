@@ -3,7 +3,9 @@ package raytracer;
 import raytracer.pigments.Finish;
 import raytracer.pigments.Pigment;
 import raytracer.pigments.SolidPigment;
+import raytracer.shapes.Plane;
 import raytracer.shapes.Shape;
+import raytracer.shapes.Sphere;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Api {
 
     private int cols, rows;
     private Camera camera;
+    Shape shape;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
     private final ArrayList<Finish> finishesList = new ArrayList<>();
@@ -91,6 +94,24 @@ public class Api {
 
     void createFinish(float ambient, float diffuse, float specular, float shiny, float mirror, float transparency, float refraction){
         finishesList.add(new Finish(ambient, diffuse, specular, shiny, mirror, transparency, refraction));
+    }
+
+    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, int shapeSize){
+        if ("sphere".equals(shapeName)) {
+            List<Double> positionList = createDoubleVals(positionPoint);
+            Double shapePositionX = positionList.get(0);
+            Double shapePositionY = positionList.get(1);
+            Double shapePositionZ = positionList.get(2);
+            Point shapePoint  = new Point(shapePositionX, shapePositionY, shapePositionZ);
+            shape = new Sphere(shapePoint, shapeSize);
+        }
+        else if ("plane".equals(shapeName)) {
+            List<Double> positionList = createDoubleVals(positionPoint);
+            Double shapePositionX = positionList.get(0);
+            Double shapePositionY = positionList.get(1);
+            Double shapePositionZ = positionList.get(2);
+            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSize);
+        }
     }
 
 
