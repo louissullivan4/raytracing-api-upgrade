@@ -17,10 +17,10 @@ public class RayTracer {
 	public static final Color BACKGROUND_COLOR = Color.GRAY;
 
 	private Camera camera;
-	private final ArrayList<Light> lights = new ArrayList<Light>();
-	private final ArrayList<Pigment> pigments = new ArrayList<Pigment>();
-	private final ArrayList<Finish> finishes = new ArrayList<Finish>();
-	private final ArrayList<Shape> shapes = new ArrayList<Shape>();
+	private final ArrayList<Light> lights = new ArrayList<>();
+	private final ArrayList<Pigment> pigments = new ArrayList<>();
+	private final ArrayList<Finish> finishes = new ArrayList<>();
+	private final ArrayList<Shape> shapes = new ArrayList<>();
 	private final int cols, rows;
 
 	public RayTracer(int cols, int rows) {
