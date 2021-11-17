@@ -129,7 +129,7 @@ public class RayTracer {
 		long start = System.currentTimeMillis();
 
 		if(Main.MULTI_THREAD) {
-			final ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<Runnable>());
+			final ThreadPoolExecutor executor = new ThreadPoolExecutor(2, 2, 1, TimeUnit.SECONDS, new LinkedBlockingQueue<>());
 			final AtomicInteger remaining = new AtomicInteger(rows * cols);
 			for(int r = 0;r < rows; r++) {
 				for(int c = 0;c < cols; c++) {
