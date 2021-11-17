@@ -1,16 +1,17 @@
 package raytracer;
 
 public class Camera {
-	private Point eye;
-	private Vector vx;
-	private Vector vy;
-	private Vector vz;
+	private final Point eye;
+	private final Vector vx;
+	private final Vector vy;
+	private final Vector vz;
 
-	private double windowDistance;
-	private double windowWidth;
-	private double windowHeight;
+	private final double windowDistance;
+	private final double windowWidth;
+	private final double windowHeight;
 
-	private double rows, cols;
+	private final double rows;
+	private final double cols;
 //	private double fovy, fovx;
 
 	public Camera(Point eye, Point center, Vector up, double fovy, int cols, int rows) {
@@ -23,8 +24,6 @@ public class Camera {
 		vy = vz.cross(vx);
 
 		this.eye = eye;
-//		this.center = center;
-//		this.up = up;
 		this.cols = cols;
 		this.rows = rows;
 
@@ -33,7 +32,7 @@ public class Camera {
 		windowWidth = Math.sin(fovx / 2.0) * windowDistance * 2.0;
 
 		Log.debug("  Viewframe:");
-		Log.debug("    Org: " + eye.toString());
+		Log.debug("    Org: " + eye);
 		Log.debug("    X:   " + vx.toString());
 		Log.debug("    Y:   " + vy.toString());
 		Log.debug("    Z:   " + vz.toString());
@@ -79,20 +78,7 @@ public class Camera {
 				{0, 0, 1, eye.z},
 				{0, 0, 0, 1}
 		});
-/*
-		Matrix rT = new Matrix(new double[][]{
-				{vx.x, vx.y, vx.z, 0},
-				{vy.x, vy.y, vy.z, 0},
-				{vz.x, vz.y, vz.z, 0},
-				{0, 0, 0, 1}
-		});
-		Matrix tInv = new Matrix(new double[][]{
-				{1, 0, 0, -eye.x},
-				{0, 1, 0, -eye.y},
-				{0, 0, 1, -eye.z},
-				{0, 0, 0, 1}
-		});
-*/
+
 		Matrix matrix = tInv.times(rT);
 		Vector v = matrix.times(new Vector(p.x, p.y, p.z));
 		return v;
