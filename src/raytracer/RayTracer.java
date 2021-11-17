@@ -183,12 +183,13 @@ public class RayTracer {
 	public void readScene(File file) throws FileNotFoundException {
 		Scanner scanner = new Scanner(file);
 
+
 		// read view
-		Point eye = readPoint(scanner);
-		Point center = readPoint(scanner);
-		Vector up = readVector(scanner);
-		double fovy = scanner.nextDouble();
-		camera = new Camera(eye, center, up, fovy, cols, rows);
+		Point eyePosition = readPoint(scanner);
+		Point centerOfScene = readPoint(scanner);
+		Vector upDirection = readVector(scanner);
+		double fieldOfView = scanner.nextDouble();
+		camera = new Camera(eyePosition, centerOfScene, upDirection, fieldOfView, cols, rows);
 
 		// read lights
 		int numLights = scanner.nextInt();
