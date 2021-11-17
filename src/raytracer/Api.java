@@ -89,7 +89,9 @@ public class Api {
 
     }
 
-    void createFinish(float ambient, )
+    void createFinish(float ambient, float diffuse, float specular, float shiny, float mirror, float transparency, float refraction){
+        finishesList.add(new Finish(ambient, diffuse, specular, shiny, mirror, transparency, refraction));
+    }
 
 
     private List<Double> createDoubleVals(String stringPoints){
