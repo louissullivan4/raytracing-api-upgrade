@@ -32,11 +32,11 @@ public class Main {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-
+		//java -cp src raytracer.Main api01.bmp 400 300
 		// required arguments
-		File outFile = new File(args[0]);
-		int cols = Integer.parseInt(args[1]);
-		int rows = Integer.parseInt(args[2]);
+		File outFile = new File("api01.bmp");
+		int cols = 400;
+		int rows = 300;
 
 
 		Api apimade = new Api(cols, rows);
@@ -44,7 +44,7 @@ public class Main {
 		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");
 		apimade.createPigment("solid", "1,0,0");
 		apimade.createFinish(0.4f, 0.6f, 0.0f, 1, 0, 0, 0);
-		apimade.createShape("sphere", 0, 1, "3, 3, -15", 1);
+		apimade.createShape("sphere", 0, 0, "3, 3, -15", 1);
 
 		apimade.draw(outFile);
 	}

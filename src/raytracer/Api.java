@@ -24,6 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Api {
 
     private int cols, rows;
+    Shape shape;
     private Camera camera;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
@@ -229,7 +230,7 @@ public class Api {
         float blue = rgbFloatList.get(2);
         Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
 
-        if (Objects.equals(pigmentType, "Solid")){
+        if (Objects.equals(pigmentType, "solid")){
             pigmentsList.add(new SolidPigment(rgbColor));
         }
 
@@ -240,7 +241,6 @@ public class Api {
     }
 
     void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, int shapeSize){
-        Shape shape;
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             Double shapePositionX = positionList.get(0);
@@ -256,7 +256,6 @@ public class Api {
             Double shapePositionZ = positionList.get(2);
             shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSize);
         }
-
         shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
         shapesList.add(shape);
     }
