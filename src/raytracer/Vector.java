@@ -15,8 +15,6 @@ public class Vector {
 
 	/**
 	 * Create a new vector from point1 to point2.
-	 * @param from
-	 * @param to
 	 */
 	public Vector(Point from, Point to) {
 		this(to.x - from.x, to.y - from.y, to.z - from.z);
