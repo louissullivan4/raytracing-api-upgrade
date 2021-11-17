@@ -41,9 +41,9 @@ public class Main {
 
 		Api apimade = new Api(cols, rows);
 		apimade.createView("0,0,0", "0,0,-1", "0,1,0", 30);
-		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");
+		apimade.createLight("0,0,0", "0.2f, 0.2f, 0.2f", "1,0,0");
 		apimade.createPigment("solid", "1,0,0");
-		apimade.createFinish(0.4f, 0.6f, 0.0f, 1, 0, 0, 0);
+		apimade.createFinish(0, 0.6f, 0.0f, 1, 0, 0, 0);
 		apimade.createShape("sphere", 0, 0, "3, 3, -15", 1);
 
 		apimade.draw(outFile);
