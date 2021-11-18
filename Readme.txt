@@ -27,6 +27,7 @@ Usage
 =====
 After making, you can simply run the application using java as follows:
 java -Djava.awt.headless=true -cp src raytracer.Main test05.txt test05.bmp 400 300
+java -cp src raytracer.Main test01.txt test01.bmp 400 300
 java -cp src raytracer.Main api01.bmp 400 300
 
 The -Djava.awt.headless=true flag alerts java not to popup a Java window. 
