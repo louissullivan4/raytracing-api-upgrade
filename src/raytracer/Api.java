@@ -193,6 +193,7 @@ public class Api {
     }
 
     void createLight(String lightPosition, String color, String attenuationFactor){
+
         //Created the 3d position of the light
         List<Double> positionList = createDoubleVals(lightPosition);
         double lightPositionX = positionList.get(0);
@@ -213,13 +214,12 @@ public class Api {
         float attenuationFactorB = afFloatList.get(1);
         float attenuationFactorC = afFloatList.get(2);
 
-//        if (lightsList.size() == 0){
-//            lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
-//        }
-//        else{
-//            lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
-//        }
-        lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+        if (lightsList.size() == 0){
+            lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+        }
+        else{
+            lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+        }
 
 
     }

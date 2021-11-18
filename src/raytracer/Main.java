@@ -42,10 +42,28 @@ public class Main {
 
 		Api apimade = new Api(cols, rows);
 		apimade.createView("0,0,0", "0,0,-1", "0,1,0", 30);
+
 		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");
-		apimade.createPigment("solid", "1.0,0.0,0.0");
+		apimade.createLight("10,100,10", "1.0,1.0,1.0", "1,0,0");
+		apimade.createLight("100,100,100", "1.0,1.0,1.0", "1,0,0");
+
+
+		apimade.createPigment("solid", "1,0,0");
+		apimade.createPigment("solid", "0,1,0");
+		apimade.createPigment("solid", "0,0,1");
+
+
+
 		apimade.createFinish("0.4", "0.6", "0", "1", "0", "0", "0");
+		apimade.createFinish("0.4", "0.6", "0.7", "500", "0", "0", "0");
+
+
 		apimade.createShape("sphere", 0, 0, "3,3,-15", 1);
+		apimade.createShape("sphere", 1, 0, "1,0,-15", 2);
+		apimade.createShape("sphere", 2, 1, "5,-5,-25", 3);
+		apimade.createShape("sphere", 2, 1, "-5,0,-30", 4);
+
+
 
 		apimade.draw(outFile);
 	}
