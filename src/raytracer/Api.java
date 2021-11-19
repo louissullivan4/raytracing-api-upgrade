@@ -248,21 +248,25 @@ public class Api {
         finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
     }
 
-    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, int shapeSize){
+    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
             double shapePositionY = positionList.get(1);
             double shapePositionZ = positionList.get(2);
             Point shapePoint  = new Point(shapePositionX, shapePositionY, shapePositionZ);
-            shape = new Sphere(shapePoint, shapeSize);
+
+            double shapeSizeDouble = Double.parseDouble(shapeSize);
+            shape = new Sphere(shapePoint, shapeSizeDouble);
         }
         else if ("plane".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
             double shapePositionY = positionList.get(1);
             double shapePositionZ = positionList.get(2);
-            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSize);
+            float shapeSizeFloat = Float.parseFloat(shapeSize);
+
+            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
         }
         shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
         shapesList.add(shape);
