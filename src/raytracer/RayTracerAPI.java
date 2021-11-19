@@ -21,6 +21,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
+/**
+ * Ray tracer api.
+ */
 public class RayTracerAPI {
 
     private final int cols;
@@ -31,16 +34,36 @@ public class RayTracerAPI {
     private final ArrayList<Finish> finishesList = new ArrayList<>();
     private final ArrayList<Shape> shapesList = new ArrayList<>();
 
+    /**
+     * The Shape.
+     */
     Shape shape;
 
+    /**
+     * The constant MAX_RECURSION_LEVEL.
+     */
     public static final int MAX_RECURSION_LEVEL = 5;
+    /**
+     * The constant BACKGROUND_COLOR.
+     */
     public static final Color BACKGROUND_COLOR = Color.GRAY;
 
+    /**
+     * Instantiates a new Ray tracer api.
+     *
+     * @param cols number of columns
+     * @param rows number of rows
+     */
     public RayTracerAPI(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
     }
 
+    /**
+     * Render - calls draw to create the image from the arraylists
+     *
+     * @param outFile the out file
+     */
     public void render(File outFile){
         try {
             this.draw(outFile);
@@ -49,6 +72,14 @@ public class RayTracerAPI {
         }
     }
 
+    /**
+     * Create view.
+     *
+     * @param eyePosition   the 3d position of the eye
+     * @param centerOfScene the center of scene
+     * @param upDirection   the up direction
+     * @param fieldOfView   the field of view
+     */
     public void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
         //Created the 3d position of the eye point
         List<Double> eyePositionList = createDoubleVals(eyePosition);
@@ -64,16 +95,24 @@ public class RayTracerAPI {
         double centerOfSceneZ = centerOfSceneList.get(2);
         Point centerOfScenePoint  = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
 
-        //Created the up direction point
+        //Created the up direction vector
         List<Double> upDirList = createDoubleVals(upDirection);
         double upDirListX = upDirList.get(0);
         double upDirListY = upDirList.get(1);
         double upDirListZ = upDirList.get(2);
         Vector upDirListPoint  = new Vector(upDirListX, upDirListY, upDirListZ);
 
+        //Create the new camera using all these values
         camera = new Camera(eyePositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
     }
 
+    /**
+     * Create light.
+     *
+     * @param lightPosition     the 3d position of the light
+     * @param color             the color
+     * @param attenuationFactor the attenuation factor
+     */
     public void createLight(String lightPosition, String color, String attenuationFactor){
 
         //Created the 3d position of the light
@@ -96,6 +135,7 @@ public class RayTracerAPI {
         float attenuationFactorB = afFloatList.get(1);
         float attenuationFactorC = afFloatList.get(2);
 
+        // if the light is the first light in the list create and ambient light otherwise create a normal light
         if (lightsList.size() == 0){
             lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
         }
@@ -105,19 +145,39 @@ public class RayTracerAPI {
 
     }
 
+    /**
+     * Create pigment.
+     *
+     * @param pigmentType the pigment type
+     * @param color       the color
+     */
     public void createPigment(String pigmentType, String color){
+        // Created the rgb values
         List<Float> rgbFloatList = createFloatVals(color);
         float red = rgbFloatList.get(0);
         float green = rgbFloatList.get(1);
         float blue = rgbFloatList.get(2);
         Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
 
+        // Currently only supporting type solid.
         if (Objects.equals(pigmentType, "solid")){
             pigmentsList.add(new SolidPigment(rgbColor));
         }
     }
 
+    /**
+     * Create finish.
+     *
+     * @param ambient      the ambient
+     * @param diffuse      the diffuse
+     * @param specular     the specular
+     * @param shiny        the shiny
+     * @param mirror       the mirror
+     * @param transparency the transparency
+     * @param refraction   the refraction
+     */
     public void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
+        //Convert each string to float
         float ambientf = Float.parseFloat(ambient);
         float diffusef = Float.parseFloat(diffuse);
         float specularf = Float.parseFloat(specular);
@@ -125,10 +185,21 @@ public class RayTracerAPI {
         float mirrorf = Float.parseFloat(mirror);
         float transparencyf = Float.parseFloat(transparency);
         float refractionf = Float.parseFloat(refraction);
+        //create finish from these values
         finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
     }
 
+    /**
+     * Create shape - only Sphere and Plane supported
+     *
+     * @param shapeName     the shape name
+     * @param pigmentNum    the pigment num
+     * @param finishNum     the finish num
+     * @param positionPoint the position point
+     * @param shapeSize     the shape size
+     */
     public void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
+
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
@@ -152,6 +223,11 @@ public class RayTracerAPI {
         shapesList.add(shape);
     }
 
+    /**
+     * createDoubleVals - used to convert string to list of doubles
+     *
+     * @return pointsDoubleList
+     */
     private List<Double> createDoubleVals(String stringPoints){
         String[] pointsSplit = stringPoints.split(",");
         List<Double> pointsDoubleList = new ArrayList<>();
@@ -160,7 +236,11 @@ public class RayTracerAPI {
         }
         return pointsDoubleList;
     }
-
+    /**
+     * createFloatVals - used to convert string to list of floats
+     *
+     * @return valFloatList
+     */
     private List<Float> createFloatVals(String stringPoints) {
         String[] strSplit = stringPoints.split(",");
         List<Float> valFloatList = new ArrayList<>();
@@ -272,6 +352,13 @@ public class RayTracerAPI {
     }
 
 
+    /**
+     * Gets pixel color.
+     *
+     * @param col the col
+     * @param row the row
+     * @return the pixel color
+     */
     public Color getPixelColor(int col, int row) {
         int bmpRow = rows-1 - row;
 		Log.debug("Tracing ray (col=" + col + ", row=" + row + ")");
