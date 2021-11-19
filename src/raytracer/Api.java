@@ -24,12 +24,13 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Api {
 
     private int cols, rows;
-    Shape shape;
     private Camera camera;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
     private final ArrayList<Finish> finishesList = new ArrayList<>();
     private final ArrayList<Shape> shapesList = new ArrayList<>();
+
+    Shape shape;
 
     public static final int MAX_RECURSION_LEVEL = 5;
     public static final Color BACKGROUND_COLOR = Color.GRAY;
@@ -39,6 +40,134 @@ public class Api {
         this.rows = rows;
     }
 
+    public void render(File outFile){
+        try {
+            this.draw(outFile);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
+        //Created the 3d position of the eye point
+        List<Double> eyePositionList = createDoubleVals(eyePosition);
+        double eyePositionX = eyePositionList.get(0);
+        double eyePositionY = eyePositionList.get(1);
+        double eyePositionZ = eyePositionList.get(2);
+        Point eyePositionPoint  = new Point(eyePositionX, eyePositionY, eyePositionZ);
+
+        //Created the center of scene point
+        List<Double> centerOfSceneList = createDoubleVals(centerOfScene);
+        double centerOfSceneX = centerOfSceneList.get(0);
+        double centerOfSceneY = centerOfSceneList.get(1);
+        double centerOfSceneZ = centerOfSceneList.get(2);
+        Point centerOfScenePoint  = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
+
+        //Created the up direction point
+        List<Double> upDirList = createDoubleVals(upDirection);
+        double upDirListX = upDirList.get(0);
+        double upDirListY = upDirList.get(1);
+        double upDirListZ = upDirList.get(2);
+        Vector upDirListPoint  = new Vector(upDirListX, upDirListY, upDirListZ);
+
+        camera = new Camera(eyePositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
+    }
+
+    void createLight(String lightPosition, String color, String attenuationFactor){
+
+        //Created the 3d position of the light
+        List<Double> positionList = createDoubleVals(lightPosition);
+        double lightPositionX = positionList.get(0);
+        double lightPositionY = positionList.get(1);
+        double lightPositionZ = positionList.get(2);
+        Point lightPositionPoint  = new Point(lightPositionX, lightPositionY, lightPositionZ);
+
+        //Created the rgb values
+        List<Float> rgbFloatList = createFloatVals(color);
+        float red = rgbFloatList.get(0);
+        float green = rgbFloatList.get(1);
+        float blue = rgbFloatList.get(2);
+        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
+
+        //Created the attenuation factor
+        List<Float> afFloatList = createFloatVals(attenuationFactor);
+        float attenuationFactorA = afFloatList.get(0);
+        float attenuationFactorB = afFloatList.get(1);
+        float attenuationFactorC = afFloatList.get(2);
+
+        if (lightsList.size() == 0){
+            lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+        }
+        else{
+            lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+        }
+
+    }
+
+    void createPigment(String pigmentType, String color){
+        List<Float> rgbFloatList = createFloatVals(color);
+        float red = rgbFloatList.get(0);
+        float green = rgbFloatList.get(1);
+        float blue = rgbFloatList.get(2);
+        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
+
+        if (Objects.equals(pigmentType, "solid")){
+            pigmentsList.add(new SolidPigment(rgbColor));
+        }
+    }
+
+    void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
+        float ambientf = Float.parseFloat(ambient);
+        float diffusef = Float.parseFloat(diffuse);
+        float specularf = Float.parseFloat(specular);
+        float shinyf = Float.parseFloat(shiny);
+        float mirrorf = Float.parseFloat(mirror);
+        float transparencyf = Float.parseFloat(transparency);
+        float refractionf = Float.parseFloat(refraction);
+        finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
+    }
+
+    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
+        if ("sphere".equals(shapeName)) {
+            List<Double> positionList = createDoubleVals(positionPoint);
+            double shapePositionX = positionList.get(0);
+            double shapePositionY = positionList.get(1);
+            double shapePositionZ = positionList.get(2);
+            Point shapePoint  = new Point(shapePositionX, shapePositionY, shapePositionZ);
+
+            double shapeSizeDouble = Double.parseDouble(shapeSize);
+            shape = new Sphere(shapePoint, shapeSizeDouble);
+        }
+        else if ("plane".equals(shapeName)) {
+            List<Double> positionList = createDoubleVals(positionPoint);
+            double shapePositionX = positionList.get(0);
+            double shapePositionY = positionList.get(1);
+            double shapePositionZ = positionList.get(2);
+            float shapeSizeFloat = Float.parseFloat(shapeSize);
+
+            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
+        }
+        shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
+        shapesList.add(shape);
+    }
+
+    private List<Double> createDoubleVals(String stringPoints){
+        String[] pointsSplit = stringPoints.split(",");
+        List<Double> pointsDoubleList = new ArrayList<>();
+        for (String number : pointsSplit) {
+            pointsDoubleList.add(Double.parseDouble(number.trim()));
+        }
+        return pointsDoubleList;
+    }
+
+    private List<Float> createFloatVals(String stringPoints) {
+        String[] strSplit = stringPoints.split(",");
+        List<Float> valFloatList = new ArrayList<>();
+        for (String number : strSplit) {
+            valFloatList.add(Float.parseFloat(number.trim()));
+        }
+        return valFloatList;
+    }
 
     private Color shade(RayHit hit, int depth) {
         Color color = Color.BLACK;
@@ -113,7 +242,7 @@ public class Api {
     }
 
 
-    public void draw(File outFile) throws IOException, InterruptedException {
+    private void draw(File outFile) throws IOException, InterruptedException {
         final BufferedImage image = new BufferedImage(cols, rows, BufferedImage.TYPE_INT_RGB);
 
         long start = System.currentTimeMillis();
@@ -167,135 +296,4 @@ public class Api {
             return trace(ray, 0);
         }
     }
-    void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
-        //Created the 3d position of the eye point
-        List<Double> eyePositionList = createDoubleVals(eyePosition);
-        double eyePositionX = eyePositionList.get(0);
-        double eyePositionY = eyePositionList.get(1);
-        double eyePositionZ = eyePositionList.get(2);
-        Point eyepositionPoint  = new Point(eyePositionX, eyePositionY, eyePositionZ);
-
-        //Created the center of scene point
-        List<Double> centerOfSceneList = createDoubleVals(centerOfScene);
-        double centerOfSceneX = centerOfSceneList.get(0);
-        double centerOfSceneY = centerOfSceneList.get(1);
-        double centerOfSceneZ = centerOfSceneList.get(2);
-        Point centerOfScenePoint  = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
-
-        //Created the up direction point
-        List<Double> upDirList = createDoubleVals(upDirection);
-        double upDirListX = upDirList.get(0);
-        double upDirListY = upDirList.get(1);
-        double upDirListZ = upDirList.get(2);
-        Vector upDirListPoint  = new Vector(upDirListX, upDirListY, upDirListZ);
-
-        camera = new Camera(eyepositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
-    }
-
-    void createLight(String lightPosition, String color, String attenuationFactor){
-
-        //Created the 3d position of the light
-        List<Double> positionList = createDoubleVals(lightPosition);
-        double lightPositionX = positionList.get(0);
-        double lightPositionY = positionList.get(1);
-        double lightPositionZ = positionList.get(2);
-        Point lightPositionPoint  = new Point(lightPositionX, lightPositionY, lightPositionZ);
-
-        //Created the rgb values
-        List<Float> rgbFloatList = createFloatVals(color);
-        float red = rgbFloatList.get(0);
-        float green = rgbFloatList.get(1);
-        float blue = rgbFloatList.get(2);
-        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
-
-        //Created the attenuation factor
-        List<Float> afFloatList = createFloatVals(attenuationFactor);
-        float attenuationFactorA = afFloatList.get(0);
-        float attenuationFactorB = afFloatList.get(1);
-        float attenuationFactorC = afFloatList.get(2);
-
-        if (lightsList.size() == 0){
-            lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
-        }
-        else{
-            lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
-        }
-
-
-    }
-
-    void createPigment(String pigmentType, String color){
-        List<Float> rgbFloatList = createFloatVals(color);
-        float red = rgbFloatList.get(0);
-        float green = rgbFloatList.get(1);
-        float blue = rgbFloatList.get(2);
-        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
-
-        if (Objects.equals(pigmentType, "solid")){
-            pigmentsList.add(new SolidPigment(rgbColor));
-        }
-
-    }
-
-    void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
-        float ambientf = Float.parseFloat(ambient);
-        float diffusef = Float.parseFloat(diffuse);
-        float specularf = Float.parseFloat(specular);
-        float shinyf = Float.parseFloat(shiny);
-        float mirrorf = Float.parseFloat(mirror);
-        float transparencyf = Float.parseFloat(transparency);
-        float refractionf = Float.parseFloat(refraction);
-        finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
-    }
-
-    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
-        if ("sphere".equals(shapeName)) {
-            List<Double> positionList = createDoubleVals(positionPoint);
-            double shapePositionX = positionList.get(0);
-            double shapePositionY = positionList.get(1);
-            double shapePositionZ = positionList.get(2);
-            Point shapePoint  = new Point(shapePositionX, shapePositionY, shapePositionZ);
-
-            double shapeSizeDouble = Double.parseDouble(shapeSize);
-            shape = new Sphere(shapePoint, shapeSizeDouble);
-        }
-        else if ("plane".equals(shapeName)) {
-            List<Double> positionList = createDoubleVals(positionPoint);
-            double shapePositionX = positionList.get(0);
-            double shapePositionY = positionList.get(1);
-            double shapePositionZ = positionList.get(2);
-            float shapeSizeFloat = Float.parseFloat(shapeSize);
-
-            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
-        }
-        shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
-        shapesList.add(shape);
-    }
-
-    private List<Double> createDoubleVals(String stringPoints){
-        String[] pointsSplit = stringPoints.split(",");
-        List<Double> pointsDoubleList = new ArrayList<>();
-        for (String number : pointsSplit) {
-            pointsDoubleList.add(Double.parseDouble(number.trim()));
-        }
-        return pointsDoubleList;
-    }
-
-    private List<Float> createFloatVals(String stringPoints){
-        String[] strSplit = stringPoints.split(",");
-        List<Float> valFloatList = new ArrayList<>();
-        for (String number : strSplit) {
-            valFloatList.add(Float.parseFloat(number.trim()));
-        }
-        return valFloatList;
-    }
-
-
-
-
-
-
-
-
-
 }

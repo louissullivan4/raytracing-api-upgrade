@@ -71,27 +71,6 @@ public class RayTracer {
 		}
 
 		return color;
-
-		// Possible Outline:
-		//  Get the normal vector from hit
-		//  Get the contact point as R's endpoint
-		//  Get the pigment and surface finish from hitObj
-		//  Initialize accumulated color to Black (0,0,0)
-		//  for each (light source i)
-		//      if (i is the ambient source) add ambient shading to accumulated color
-		//      else
-		//          Ray LightRay = ray from contact point to light
-		//          call Hit(LightRay) to determine whether in shadow
-		//          if (not in shadow) skip the next step
-		//              add the basic Phong shading for this light
-		//                (diffuse, specular components)
-		//  if (reflective)
-		//      increment recursion level: lev++
-		//      shoot reflection ray and add its contribution
-		//  if (transmittive)
-		//      increment recursion level: lev++
-		//      shoot refraction ray and add its contribution
-		//  return the final accumulated color
 	}
 
 	private RayHit findHit(Ray ray) {
@@ -180,95 +159,95 @@ public class RayTracer {
 	}
 
 
-	public void readScene(File file) throws FileNotFoundException {
-		Scanner scanner = new Scanner(file);
-
-
-		// read view
-		Point eyePosition = readPoint(scanner);
-		Point centerOfScene = readPoint(scanner);
-		Vector upDirection = readVector(scanner);
-		double fieldOfView = scanner.nextDouble();
-		camera = new Camera(eyePosition, centerOfScene, upDirection, fieldOfView, cols, rows);
-
-		// read lights
-		int numLights = scanner.nextInt();
-		if(numLights > 0) lights.add(new AmbientLight(readPoint(scanner), readColor(scanner), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
-		for(int i=1;i<numLights;i++) {
-			lights.add(new Light(readPoint(scanner), readColor(scanner), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
-		}
-
-		// read pigments
-		int numPigments = scanner.nextInt();
-		for(int i=0;i<numPigments;i++) {
-			String name = scanner.next();
-			if("solid".equals(name)) {
-				pigments.add(new SolidPigment(readColor(scanner)));
-			} else if("checker".equals(name)) {
-				pigments.add(new CheckerPigment(readColor(scanner), readColor(scanner), scanner.nextDouble()));
-			} else if("gradient".equals(name)) {
-				pigments.add(new GradientPigment(readPoint(scanner), readVector(scanner), readColor(scanner), readColor(scanner)));
-			} else if("texmap".equals(name)) {
-				File bmpFile = new File(scanner.next());
-				try {
-					pigments.add(new TexmapPigment(bmpFile, scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble()));
-				} catch(IOException ex) {
-					Log.error("Could not locate texmap file '" + bmpFile.getName() + "'.");
-					System.exit(1);
-				}
-			} else {
-				throw new UnsupportedOperationException("Unrecognized pigment: '" + name + "'.");
-			}
-		}
-
-		// read surface finishes
-		int numFins = scanner.nextInt();
-		for(int i=0;i<numFins;i++) {
-			finishes.add(new Finish(scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
-		}
-
-		// read shapes
-		int numShapes = scanner.nextInt();
-		for(int i=0;i<numShapes;i++) {
-			int pigNum = scanner.nextInt();
-			int finishNum = scanner.nextInt();
-			String name = scanner.next();
-			Shape shape;
-			if("sphere".equals(name)) {
-				shape = new Sphere(readPoint(scanner), scanner.nextDouble());
-			} else if("plane".equals(name)) {
-				shape = new Plane(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble());
-			} else if("cylinder".equals(name)) {
-				shape = new Cylinder(readPoint(scanner), readVector(scanner), scanner.nextDouble());
-			} else if("cone".equals(name)) {
-				shape = new Cone(readPoint(scanner), readVector(scanner), scanner.nextDouble());
-			} else if("disc".equals(name)) {
-				shape = new Disc(readPoint(scanner), readVector(scanner), scanner.nextDouble());
-			} else if("polyhedron".equals(name)) {
-				int numFaces = scanner.nextInt();
-				ArrayList<Polygon> faces = new ArrayList<Polygon>(numFaces);
-				for(int f=0;f<numFaces;f++) {
-					faces.add(new Polygon(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble()));
-				}
-				shape = new Polyhedron(faces);
-			} else if("triangle".equals(name)) {
-				shape = new Triangle(readPoint(scanner), readPoint(scanner), readPoint(scanner));
-			} else if("parallelogram".equals(name)) {
-				shape = new Parallelogram(readPoint(scanner), readPoint(scanner), readPoint(scanner));
-			} else if("bezier".equals(name)) {
-				ArrayList<Point> points = new ArrayList<Point>(16);
-				for(int s=0;s<16;s++) {
-					points.add(readPoint(scanner));
-				}
-				shape = new Bezier(points);
-			} else {
-				throw new UnsupportedOperationException("Unrecognized shape: '" + name + "'.");
-			}
-
-			shape.setMaterial(pigments.get(pigNum), finishes.get(finishNum));
-			shapes.add(shape);
-		}
-	}
+//	public void readScene(File file) throws FileNotFoundException {
+//		Scanner scanner = new Scanner(file);
+//
+//
+//		// read view
+//		Point eyePosition = readPoint(scanner);
+//		Point centerOfScene = readPoint(scanner);
+//		Vector upDirection = readVector(scanner);
+//		double fieldOfView = scanner.nextDouble();
+//		camera = new Camera(eyePosition, centerOfScene, upDirection, fieldOfView, cols, rows);
+//
+//		// read lights
+//		int numLights = scanner.nextInt();
+//		if(numLights > 0) lights.add(new AmbientLight(readPoint(scanner), readColor(scanner), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
+//		for(int i=1;i<numLights;i++) {
+//			lights.add(new Light(readPoint(scanner), readColor(scanner), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
+//		}
+//
+//		// read pigments
+//		int numPigments = scanner.nextInt();
+//		for(int i=0;i<numPigments;i++) {
+//			String name = scanner.next();
+//			if("solid".equals(name)) {
+//				pigments.add(new SolidPigment(readColor(scanner)));
+//			} else if("checker".equals(name)) {
+//				pigments.add(new CheckerPigment(readColor(scanner), readColor(scanner), scanner.nextDouble()));
+//			} else if("gradient".equals(name)) {
+//				pigments.add(new GradientPigment(readPoint(scanner), readVector(scanner), readColor(scanner), readColor(scanner)));
+//			} else if("texmap".equals(name)) {
+//				File bmpFile = new File(scanner.next());
+//				try {
+//					pigments.add(new TexmapPigment(bmpFile, scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble()));
+//				} catch(IOException ex) {
+//					Log.error("Could not locate texmap file '" + bmpFile.getName() + "'.");
+//					System.exit(1);
+//				}
+//			} else {
+//				throw new UnsupportedOperationException("Unrecognized pigment: '" + name + "'.");
+//			}
+//		}
+//
+//		// read surface finishes
+//		int numFins = scanner.nextInt();
+//		for(int i=0;i<numFins;i++) {
+//			finishes.add(new Finish(scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat(), scanner.nextFloat()));
+//		}
+//
+//		// read shapes
+//		int numShapes = scanner.nextInt();
+//		for(int i=0;i<numShapes;i++) {
+//			int pigNum = scanner.nextInt();
+//			int finishNum = scanner.nextInt();
+//			String name = scanner.next();
+//			Shape shape;
+//			if("sphere".equals(name)) {
+//				shape = new Sphere(readPoint(scanner), scanner.nextDouble());
+//			} else if("plane".equals(name)) {
+//				shape = new Plane(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble());
+//			} else if("cylinder".equals(name)) {
+//				shape = new Cylinder(readPoint(scanner), readVector(scanner), scanner.nextDouble());
+//			} else if("cone".equals(name)) {
+//				shape = new Cone(readPoint(scanner), readVector(scanner), scanner.nextDouble());
+//			} else if("disc".equals(name)) {
+//				shape = new Disc(readPoint(scanner), readVector(scanner), scanner.nextDouble());
+//			} else if("polyhedron".equals(name)) {
+//				int numFaces = scanner.nextInt();
+//				ArrayList<Polygon> faces = new ArrayList<Polygon>(numFaces);
+//				for(int f=0;f<numFaces;f++) {
+//					faces.add(new Polygon(scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble(), scanner.nextDouble()));
+//				}
+//				shape = new Polyhedron(faces);
+//			} else if("triangle".equals(name)) {
+//				shape = new Triangle(readPoint(scanner), readPoint(scanner), readPoint(scanner));
+//			} else if("parallelogram".equals(name)) {
+//				shape = new Parallelogram(readPoint(scanner), readPoint(scanner), readPoint(scanner));
+//			} else if("bezier".equals(name)) {
+//				ArrayList<Point> points = new ArrayList<Point>(16);
+//				for(int s=0;s<16;s++) {
+//					points.add(readPoint(scanner));
+//				}
+//				shape = new Bezier(points);
+//			} else {
+//				throw new UnsupportedOperationException("Unrecognized shape: '" + name + "'.");
+//			}
+//
+//			shape.setMaterial(pigments.get(pigNum), finishes.get(finishNum));
+//			shapes.add(shape);
+//		}
+//	}
 
 	private static Color readColor(Scanner scanner) {
 		return new Color(ColorUtil.clamp(scanner.nextFloat()), ColorUtil.clamp(scanner.nextFloat()), ColorUtil.clamp(scanner.nextFloat()));

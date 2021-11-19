@@ -57,7 +57,7 @@ public class Main {
 		apimade.createShape("sphere", 0, 1, "0,0,1", "2");
 		apimade.createShape("plane", 1, 0, "0,0,1", "2.5");
 
-		apimade.draw(outFile);
+		apimade.render(outFile);
 
 
 
