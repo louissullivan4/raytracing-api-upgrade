@@ -40,7 +40,7 @@ public class Main {
 		int rows = 300;
 
 		//test02 to API
-		Api apimade = new Api(cols, rows);
+		RayTracerAPI apimade = new RayTracerAPI(cols, rows);
 		apimade.createView("-5,-8,10", "0,0,0", "0,0,1", 40);
 
 		apimade.createLight("0,0,0", "1,1,1", "1,0,0.00");
@@ -67,7 +67,7 @@ public class Main {
 //		int rows = 300;
 //
 //
-//		Api apimade = new Api(cols, rows);
+//		RayTracerAPI apimade = new RayTracerAPI(cols, rows);
 //		apimade.createView("0,0,0", "0,0,-1", "0,1,0", 30);
 //
 //		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");

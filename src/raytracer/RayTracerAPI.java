@@ -21,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-public class Api {
+public class RayTracerAPI {
 
     private int cols, rows;
     private Camera camera;
@@ -35,7 +35,7 @@ public class Api {
     public static final int MAX_RECURSION_LEVEL = 5;
     public static final Color BACKGROUND_COLOR = Color.GRAY;
 
-    public Api(int cols, int rows) {
+    public RayTracerAPI(int cols, int rows) {
         this.cols = cols;
         this.rows = rows;
     }
