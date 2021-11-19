@@ -2,8 +2,18 @@ package raytracer;
 
 import java.awt.Color;
 
+/**
+ * The type Color util.
+ */
 public class ColorUtil {
-	public static Color blend(Color base, Color mixin) {
+    /**
+     * Blend color.
+     *
+     * @param base  the base
+     * @param mixin the mixin
+     * @return the color
+     */
+    public static Color blend(Color base, Color mixin) {
 		float[] baseC = base.getRGBColorComponents(null);
 		float[] mixinC = mixin.getRGBColorComponents(null);
 
@@ -13,23 +23,49 @@ public class ColorUtil {
 		return new Color(red, green, blue);
 	}
 
-	public static float clamp(float x) {
+    /**
+     * Clamp float.
+     *
+     * @param x the x
+     * @return the float
+     */
+    public static float clamp(float x) {
 		return Math.max(0.0f, Math.min(1.0f, x));
 	}
 
-	public static Color intensify(Color color, float intensity) {
+    /**
+     * Intensify color.
+     *
+     * @param color     the color
+     * @param intensity the intensity
+     * @return the color
+     */
+    public static Color intensify(Color color, float intensity) {
 		// TODO: clamp should not be necessary here
 		return intensify(color, new Color(clamp(intensity), clamp(intensity), clamp(intensity)));
 	}
 
-	public static Color intensify(Color color, Color intensity) {
+    /**
+     * Intensify color.
+     *
+     * @param color     the color
+     * @param intensity the intensity
+     * @return the color
+     */
+    public static Color intensify(Color color, Color intensity) {
 		float[] c = color.getRGBColorComponents(null);
 		float[] i = intensity.getRGBColorComponents(null);
 
 		return new Color(c[0] * i[0], c[1] * i[1], c[2] * i[2]);
 	}
 
-	public static Color average(Color... colors) {
+    /**
+     * Average color.
+     *
+     * @param colors the colors
+     * @return the color
+     */
+    public static Color average(Color... colors) {
 		float[] rgb = new float[3];
 		float mult = 1.0f / colors.length;
 		for(Color c: colors) {

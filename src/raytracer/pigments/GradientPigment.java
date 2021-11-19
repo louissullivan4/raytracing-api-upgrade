@@ -4,12 +4,23 @@ import raytracer.*;
 
 import java.awt.Color;
 
+/**
+ * The type Gradient pigment.
+ */
 public class GradientPigment implements Pigment {
 	private final Point origin;
 	private final Vector v;
 	private final Color start;
 	private final Color end;
 
+	/**
+	 * Instantiates a new Gradient pigment.
+	 *
+	 * @param origin the origin
+	 * @param vector the vector
+	 * @param start  the start
+	 * @param end    the end
+	 */
 	public GradientPigment(Point origin, Vector vector, Color start, Color end) {
 		this.origin = origin;
 		this.v = vector;

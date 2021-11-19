@@ -1,14 +1,27 @@
 package raytracer;
 
+/**
+ * The type Matrix.
+ */
 public class Matrix {
 	private final double[][] m;
 
-	public Matrix(double[][] m) {
+    /**
+     * Instantiates a new Matrix.
+     *
+     * @param m the m
+     */
+    public Matrix(double[][] m) {
 		if(m.length < 4 || m[0].length < 4) throw new IllegalArgumentException("Matrix must be a 4x4 array");
 		this.m = m;
 	}
 
-	public Matrix transpose() {
+    /**
+     * Transpose matrix.
+     *
+     * @return the matrix
+     */
+    public Matrix transpose() {
 		double[][] t = new double[4][4];
 		t[0][0] = m[0][0];
 		t[1][0] = m[0][1];
@@ -30,7 +43,13 @@ public class Matrix {
 		return new Matrix(t);
 	}
 
-	public Matrix times(Matrix matrix) {
+    /**
+     * Times matrix.
+     *
+     * @param matrix the matrix
+     * @return the matrix
+     */
+    public Matrix times(Matrix matrix) {
 		double[][] m2 = matrix.m;
 		double[][] r = new double[4][4];
 
@@ -43,7 +62,13 @@ public class Matrix {
 		return new Matrix(r);
 	}
 
-	public Vector times(Vector v) {
+    /**
+     * Times vector.
+     *
+     * @param v the v
+     * @return the vector
+     */
+    public Vector times(Vector v) {
 		double x, y, z;
 
 		x = m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3];

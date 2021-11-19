@@ -8,11 +8,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The type Texmap pigment.
+ */
 public class TexmapPigment implements Pigment {
 	private BufferedImage image;
 	private int rows, cols;
 	private double sa, sb, sc, sd, ta, tb, tc, td;
 
+	/**
+	 * Instantiates a new Texmap pigment.
+	 *
+	 * @param bmpFile the bmp file
+	 * @param sa      the sa
+	 * @param sb      the sb
+	 * @param sc      the sc
+	 * @param sd      the sd
+	 * @param ta      the ta
+	 * @param tb      the tb
+	 * @param tc      the tc
+	 * @param td      the td
+	 * @throws IOException the io exception
+	 */
 	public TexmapPigment(File bmpFile, double sa, double sb, double sc, double sd, double ta, double tb, double tc, double td) throws IOException {
 		image = ImageIO.read(bmpFile);
 

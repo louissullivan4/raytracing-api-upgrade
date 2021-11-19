@@ -5,11 +5,21 @@ import raytracer.Point;
 import java.awt.Color;
 
 
+/**
+ * The type Checker pigment.
+ */
 public class CheckerPigment implements Pigment {
 	private Color color1;
 	private Color color2;
 	private double scale;
 
+	/**
+	 * Instantiates a new Checker pigment.
+	 *
+	 * @param color1 the color 1
+	 * @param color2 the color 2
+	 * @param scale  the scale
+	 */
 	public CheckerPigment(Color color1, Color color2, double scale) {
 		this.color1 = color1;
 		this.color2 = color2;

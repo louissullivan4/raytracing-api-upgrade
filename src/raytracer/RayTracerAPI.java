@@ -12,6 +12,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.InvalidParameterException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -199,18 +200,16 @@ public class RayTracerAPI {
      * @param shapeSize     the shape size
      */
     public void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
-
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
             double shapePositionY = positionList.get(1);
             double shapePositionZ = positionList.get(2);
-            Point shapePoint  = new Point(shapePositionX, shapePositionY, shapePositionZ);
+            Point shapePoint = new Point(shapePositionX, shapePositionY, shapePositionZ);
 
             double shapeSizeDouble = Double.parseDouble(shapeSize);
             shape = new Sphere(shapePoint, shapeSizeDouble);
-        }
-        else if ("plane".equals(shapeName)) {
+        } else if ("plane".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
             double shapePositionY = positionList.get(1);
@@ -218,6 +217,9 @@ public class RayTracerAPI {
             float shapeSizeFloat = Float.parseFloat(shapeSize);
 
             shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
+        }
+        else{
+            Log.error("createShape() parameters are incorrect.");
         }
         shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
         shapesList.add(shape);

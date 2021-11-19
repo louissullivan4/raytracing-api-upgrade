@@ -4,9 +4,17 @@ import raytracer.*;
 
 import java.util.List;
 
+/**
+ * The type Bezier.
+ */
 public class Bezier extends Shape {
 	private List<Point> points;
 
+	/**
+	 * Instantiates a new Bezier.
+	 *
+	 * @param points the points
+	 */
 	public Bezier(List<Point> points) {
 		this.points = points;
 

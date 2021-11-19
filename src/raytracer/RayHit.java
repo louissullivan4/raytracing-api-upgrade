@@ -2,15 +2,42 @@ package raytracer;
 
 import raytracer.shapes.Shape;
 
+/**
+ * The type Ray hit.
+ */
 public class RayHit {
-	public final Ray ray;
-	public final Shape shape;
-	public final double t;
-	public final Vector normal;
-	public final Point point;
+    /**
+     * The Ray.
+     */
+    public final Ray ray;
+    /**
+     * The Shape.
+     */
+    public final Shape shape;
+    /**
+     * The T.
+     */
+    public final double t;
+    /**
+     * The Normal.
+     */
+    public final Vector normal;
+    /**
+     * The Point.
+     */
+    public final Point point;
 	private final boolean incoming;
 
-	public RayHit(Ray ray, Shape shape, Vector normal, double t, boolean entering) {
+    /**
+     * Instantiates a new Ray hit.
+     *
+     * @param ray      the ray
+     * @param shape    the shape
+     * @param normal   the normal
+     * @param t        the t
+     * @param entering the entering
+     */
+    public RayHit(Ray ray, Shape shape, Vector normal, double t, boolean entering) {
 		this.ray = ray;
 		this.shape = shape;
 		this.t = t;
@@ -19,7 +46,16 @@ public class RayHit {
 		this.incoming = entering;
 	}
 
-	public RayHit(Ray ray, Shape shape, Vector normal, Point intersection, boolean entering) {
+    /**
+     * Instantiates a new Ray hit.
+     *
+     * @param ray          the ray
+     * @param shape        the shape
+     * @param normal       the normal
+     * @param intersection the intersection
+     * @param entering     the entering
+     */
+    public RayHit(Ray ray, Shape shape, Vector normal, Point intersection, boolean entering) {
 		this.ray = ray;
 		this.shape = shape;
 		this.t = new Vector(ray.origin, intersection).magnitude();
@@ -28,11 +64,21 @@ public class RayHit {
 		this.incoming = entering;
 	}
 
-	public Ray getReflectionRay() {
+    /**
+     * Gets reflection ray.
+     *
+     * @return the reflection ray
+     */
+    public Ray getReflectionRay() {
 		return new Ray(point, ray.direction.minus(normal.times(2.0*ray.direction.dot(normal))));
 	}
 
-	public Ray getTransmissionRay() {
+    /**
+     * Gets transmission ray.
+     *
+     * @return the transmission ray
+     */
+    public Ray getTransmissionRay() {
 		Vector v = ray.direction.negate();
 		Vector n = normal;
 		double cosi = v.dot(n);

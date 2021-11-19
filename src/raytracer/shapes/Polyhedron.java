@@ -4,9 +4,17 @@ import raytracer.*;
 
 import java.util.List;
 
+/**
+ * The type Polyhedron.
+ */
 public class Polyhedron extends Shape {
 	private List<Polygon> faces;
 
+	/**
+	 * Instantiates a new Polyhedron.
+	 *
+	 * @param faces the faces
+	 */
 	public Polyhedron(List<Polygon> faces) {
 		this.faces = faces;
 

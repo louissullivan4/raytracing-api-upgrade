@@ -2,12 +2,39 @@ package raytracer;
 
 import java.awt.Color;
 
+/**
+ * The type Light.
+ */
 public class Light {
-	public final Point location;
-	protected final Color color;
-	final float a, b, c;
+    /**
+     * The Location.
+     */
+    public final Point location;
+    /**
+     * The Color.
+     */
+    protected final Color color;
+    /**
+     * The A.
+     */
+    final float a, /**
+     * The B.
+     */
+    b, /**
+     * The C.
+     */
+    c;
 
-	public Light(Point location, Color color, float a, float b, float c) {
+    /**
+     * Instantiates a new Light.
+     *
+     * @param location the location
+     * @param color    the color
+     * @param a        the a
+     * @param b        the b
+     * @param c        the c
+     */
+    public Light(Point location, Color color, float a, float b, float c) {
 		this.location = location;
 		this.color = color;
 		this.a = a;
@@ -15,16 +42,24 @@ public class Light {
 		this.c = c;
 	}
 
-	/**
-	 *
-	 * @param d - distance
-	 * @return attenuation factor at distance d
-	 */
-	public float getAttenuationFactor(double d) {
+    /**
+     * Gets attenuation factor.
+     *
+     * @param d - distance
+     * @return attenuation factor at distance d
+     */
+    public float getAttenuationFactor(double d) {
 		return 1.0f / (float)(a + b*d + c*(d*d));
 	}
 
-	public Color getColor(RayHit hit, Ray lightRay) {
+    /**
+     * Gets color.
+     *
+     * @param hit      the hit
+     * @param lightRay the light ray
+     * @return the color
+     */
+    public Color getColor(RayHit hit, Ray lightRay) {
 		double distance = lightRay.origin.distanceTo(location);
 //		Log.debug("  distance      = " + distance);
 		float attenuationFactor = getAttenuationFactor(distance);

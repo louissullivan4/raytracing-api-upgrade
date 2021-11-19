@@ -1,5 +1,8 @@
 package raytracer;
 
+/**
+ * The type Camera.
+ */
 public class Camera {
 	private final Point eye;
 	private final Vector vx;
@@ -13,7 +16,17 @@ public class Camera {
 	private final double rows;
 	private final double cols;
 
-	public Camera(Point eye, Point center, Vector up, double fovy, int cols, int rows) {
+    /**
+     * Instantiates a new Camera.
+     *
+     * @param eye    the eye
+     * @param center the center
+     * @param up     the up
+     * @param fovy   the fovy
+     * @param cols   the cols
+     * @param rows   the rows
+     */
+    public Camera(Point eye, Point center, Vector up, double fovy, int cols, int rows) {
 		fovy = Math.toRadians(fovy);
 		double fovx = fovy * cols / rows;
 
@@ -40,10 +53,27 @@ public class Camera {
 //		Log.debug("          height: " + windowHeight);
 	}
 
-	public Ray getRay(int col, int row) {
+    /**
+     * Gets ray.
+     *
+     * @param col the col
+     * @param row the row
+     * @return the ray
+     */
+    public Ray getRay(int col, int row) {
 		return getRay(col, row, 0.5, 0.5);
 	}
-	public Ray getRay(int col, int row, double pixelAdjustmentX, double pixelAdjustmentY) {
+
+    /**
+     * Gets ray.
+     *
+     * @param col              the col
+     * @param row              the row
+     * @param pixelAdjustmentX the pixel adjustment x
+     * @param pixelAdjustmentY the pixel adjustment y
+     * @return the ray
+     */
+    public Ray getRay(int col, int row, double pixelAdjustmentX, double pixelAdjustmentY) {
 		double x = (((double)col + pixelAdjustmentX) / cols) * windowWidth - (windowWidth / 2.0);
 		double y = (((double)row + pixelAdjustmentY) / rows) * windowHeight - (windowHeight / 2.0);
 
@@ -59,12 +89,24 @@ public class Camera {
 		return ray;
 	}
 
-	public Point convertCoords(Point p) {
+    /**
+     * Convert coords point.
+     *
+     * @param p the p
+     * @return the point
+     */
+    public Point convertCoords(Point p) {
 		Vector v = convertCoords(new Vector(p.x, p.y, p.z));
 		return new Point(v.x, v.y, v.z);
 	}
 
-	public Vector convertCoords(Vector p) {
+    /**
+     * Convert coords vector.
+     *
+     * @param p the p
+     * @return the vector
+     */
+    public Vector convertCoords(Vector p) {
 		Matrix rT = new Matrix(new double[][]{
 				{vx.x, vy.x, vz.x, 0},
 				{vx.y, vy.y, vz.y, 0},

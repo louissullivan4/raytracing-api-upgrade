@@ -2,10 +2,21 @@ package raytracer.shapes;
 
 import raytracer.*;
 
+/**
+ * The type Plane.
+ */
 public class Plane extends Shape {
 	private final double a, b, c, d;
 	private final Vector normal;
 
+	/**
+	 * Instantiates a new Plane.
+	 *
+	 * @param a the a
+	 * @param b the b
+	 * @param c the c
+	 * @param d the d
+	 */
 	public Plane(double a, double b, double c, double d) {
 		this.a = a;
 		this.b = b;

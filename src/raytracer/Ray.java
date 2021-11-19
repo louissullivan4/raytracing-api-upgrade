@@ -1,15 +1,40 @@
 package raytracer;
 
+/**
+ * The type Ray.
+ */
 public class Ray {
-	public final Point origin;
-	public final Vector direction;
-	public double t;
+    /**
+     * The Origin.
+     */
+    public final Point origin;
+    /**
+     * The Direction.
+     */
+    public final Vector direction;
+    /**
+     * The T.
+     */
+    public double t;
 
-	public Ray(Point origin, Vector direction) {
+    /**
+     * Instantiates a new Ray.
+     *
+     * @param origin    the origin
+     * @param direction the direction
+     */
+    public Ray(Point origin, Vector direction) {
 		this(origin, direction, true);
 	}
 
-	public Ray(Point origin, Vector direction, boolean adjustForError) {
+    /**
+     * Instantiates a new Ray.
+     *
+     * @param origin         the origin
+     * @param direction      the direction
+     * @param adjustForError the adjust for error
+     */
+    public Ray(Point origin, Vector direction, boolean adjustForError) {
 		this.t = Double.POSITIVE_INFINITY;
 
 		this.direction = direction.normalize();
@@ -19,16 +44,33 @@ public class Ray {
 		this.origin = origin;
 	}
 
-	public Double intersects(Point p) {
+    /**
+     * Intersects double.
+     *
+     * @param p the p
+     * @return the double
+     */
+    public Double intersects(Point p) {
 		double t = Double.POSITIVE_INFINITY;
 		return t;
 	}
 
-	public Point getEnd(double t) {
+    /**
+     * Gets end.
+     *
+     * @param t the t
+     * @return the end
+     */
+    public Point getEnd(double t) {
 		return origin.plus(direction.times(t));
 	}
 
-	public Point getEnd() {
+    /**
+     * Gets end.
+     *
+     * @return the end
+     */
+    public Point getEnd() {
 		return getEnd(this.t);
 	}
 

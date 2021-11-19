@@ -2,10 +2,25 @@ package raytracer.shapes;
 
 import raytracer.*;
 
+/**
+ * The type Sphere.
+ */
 public class Sphere extends Shape {
+	/**
+	 * The Center.
+	 */
 	Point center;
+	/**
+	 * The Radius.
+	 */
 	double radius;
 
+	/**
+	 * Instantiates a new Sphere.
+	 *
+	 * @param center the center
+	 * @param radius the radius
+	 */
 	public Sphere(Point center, double radius) {
 		this.center = center;
 		this.radius = radius;

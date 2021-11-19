@@ -12,9 +12,18 @@ import java.util.Scanner;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * The type Ray tracer.
+ */
 public class RayTracer {
-	public static final int MAX_RECURSION_LEVEL = 5;
-	public static final Color BACKGROUND_COLOR = Color.GRAY;
+    /**
+     * The constant MAX_RECURSION_LEVEL.
+     */
+    public static final int MAX_RECURSION_LEVEL = 5;
+    /**
+     * The constant BACKGROUND_COLOR.
+     */
+    public static final Color BACKGROUND_COLOR = Color.GRAY;
 
 	private Camera camera;
 	private final ArrayList<Light> lights = new ArrayList<>();
@@ -23,7 +32,13 @@ public class RayTracer {
 	private final ArrayList<Shape> shapes = new ArrayList<>();
 	private final int cols, rows;
 
-	public RayTracer(int cols, int rows) {
+    /**
+     * Instantiates a new Ray tracer.
+     *
+     * @param cols the cols
+     * @param rows the rows
+     */
+    public RayTracer(int cols, int rows) {
 		this.cols = cols;
 		this.rows = rows;
 	}
@@ -40,7 +55,7 @@ public class RayTracer {
 		}
 
 		for(int i = 1;i < lights.size();i++) {
-//			Log.debug("Checking light " + i + ":");
+			Log.debug("Checking light " + i + ":");
 			light = lights.get(i);
 			Vector lightRayVec = new Vector(hit.point, light.location);
 			Ray lightRay = new Ray(hit.point, lightRayVec);
@@ -103,7 +118,14 @@ public class RayTracer {
 	}
 
 
-	public void draw(File outFile) throws IOException, InterruptedException {
+    /**
+     * Draw.
+     *
+     * @param outFile the out file
+     * @throws IOException          the io exception
+     * @throws InterruptedException the interrupted exception
+     */
+    public void draw(File outFile) throws IOException, InterruptedException {
 		final BufferedImage image = new BufferedImage(cols, rows, BufferedImage.TYPE_INT_RGB);
 
 		long start = System.currentTimeMillis();
@@ -136,7 +158,14 @@ public class RayTracer {
 	}
 
 
-	public Color getPixelColor(int col, int row) {
+    /**
+     * Gets pixel color.
+     *
+     * @param col the col
+     * @param row the row
+     * @return the pixel color
+     */
+    public Color getPixelColor(int col, int row) {
 		int bmpRow = rows-1 - row;
 //		Log.debug("Tracing ray (col=" + col + ", row=" + row + ")");
 //		Log.debug("  [Note: In bmp format this is row " + bmpRow + "]");
