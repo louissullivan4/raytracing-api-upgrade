@@ -13,7 +13,7 @@ public class Log {
 		System.out.println(msg);
 	}
 
-//	public static void debug(String msg) {
-//		if(Main.DEBUG) System.out.println(msg);
-//	}
+	public static void debug(String msg) {
+		if(Main.DEBUG) System.out.println(msg);
+	}
 }

@@ -4,40 +4,36 @@ import java.io.File;
 import java.io.IOException;
 
 public class Main {
-//	//			"        -test     - run in test mode (see below)\n"+
-//	//			"        -noshadow - don't compute shadows\n"+
-//	//			"        -noreflec - don't do reflections\n"+
-//	//			"        -notrans  - don't do transparency\n"+
-//	private static final String USAGE = """
-//			Usage:
-//			java -cp src raytracer.Main infile bmpfile width height [-options]
-//
-//			    where:
-//			        infile    - input file name
-//			        bmpfile   - bmp output file name
-//			        width     - image width (in pixels)
-//			        height    - image hreight (in pixels)
-//			        -aa       - use anti-aliasing (~4x slower)
-//			        -multi    - use multi-threading (good for large, anti-aliased images)""";
-////			"        -nocap    - cylinders and cones are infinite";
-//
-	//public static boolean DEBUG = false;
+	private static final String USAGE = "Usage:\n"+
+			"java -cp src raytracer.Main infile bmpfile width height [-options]\n"+
+			"\n"+
+			"    where:\n"+
+			"        bmpfile   - bmp output file name\n"+
+			"        width     - image width (in pixels)\n"+
+			"        height    - image hreight (in pixels)\n"+
+			"        -aa       - use anti-aliasing (~4x slower)\n"+
+			"        -multi    - use multi-threading (good for large, anti-aliased images)";
+
+	public static boolean DEBUG = false;
 	public static boolean ANTI_ALIAS = false;
 	public static boolean MULTI_THREAD = false;
-//
-//
-//	private static void printUsage() {
-//		System.out.println(USAGE);
-//	}
+
+	private static void printUsage() {
+		System.out.println(USAGE);
+	}
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-		//java -cp src raytracer.Main api01.bmp 400 300
+		if(args.length < 3) {
+			printUsage();
+			System.exit(0);
+		}
+		//java -cp src raytracer.Main api03.bmp 400 300
 		//javac src/raytracer/*.java src/raytracer/pigments/*.java src/raytracer/shapes/*.java
 		// required arguments
-		File outFile = new File("api02.bmp");
-		int cols = 400;
-		int rows = 300;
+		File outFile = new File(args[0]);
+		int cols = Integer.parseInt(args[1]);
+		int rows = Integer.parseInt(args[2]);
 
 		//test02 to API
 		RayTracerAPI apimade = new RayTracerAPI(cols, rows);

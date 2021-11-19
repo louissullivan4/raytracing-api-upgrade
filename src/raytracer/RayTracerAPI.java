@@ -23,7 +23,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class RayTracerAPI {
 
-    private int cols, rows;
+    private final int cols;
+    private final int rows;
     private Camera camera;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
@@ -48,7 +49,7 @@ public class RayTracerAPI {
         }
     }
 
-    void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
+    public void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
         //Created the 3d position of the eye point
         List<Double> eyePositionList = createDoubleVals(eyePosition);
         double eyePositionX = eyePositionList.get(0);
@@ -73,7 +74,7 @@ public class RayTracerAPI {
         camera = new Camera(eyePositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
     }
 
-    void createLight(String lightPosition, String color, String attenuationFactor){
+    public void createLight(String lightPosition, String color, String attenuationFactor){
 
         //Created the 3d position of the light
         List<Double> positionList = createDoubleVals(lightPosition);
@@ -104,7 +105,7 @@ public class RayTracerAPI {
 
     }
 
-    void createPigment(String pigmentType, String color){
+    public void createPigment(String pigmentType, String color){
         List<Float> rgbFloatList = createFloatVals(color);
         float red = rgbFloatList.get(0);
         float green = rgbFloatList.get(1);
@@ -116,7 +117,7 @@ public class RayTracerAPI {
         }
     }
 
-    void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
+    public void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
         float ambientf = Float.parseFloat(ambient);
         float diffusef = Float.parseFloat(diffuse);
         float specularf = Float.parseFloat(specular);
@@ -127,7 +128,7 @@ public class RayTracerAPI {
         finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
     }
 
-    void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
+    public void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
         if ("sphere".equals(shapeName)) {
             List<Double> positionList = createDoubleVals(positionPoint);
             double shapePositionX = positionList.get(0);
@@ -179,22 +180,19 @@ public class RayTracerAPI {
         }
 
         for(int i = 1;i < lightsList.size();i++) {
-//			Log.debug("Checking light " + i + ":");
+			Log.debug("Checking light " + i + ":");
             light = lightsList.get(i);
             Vector lightRayVec = new Vector(hit.point, light.location);
             Ray lightRay = new Ray(hit.point, lightRayVec);
             lightRay.t = lightRayVec.magnitude();
 
-//			Log.debug("  light ray = " + lightRay);
+			Log.debug("  light ray = " + lightRay);
             RayHit obstruction = findHit(lightRay);
             if(obstruction == null) {
-                // not in the shadow
-                //              add the basic Phong shading for this light
-                //                (diffuse, specular components)
-//				Log.debug("  Light is visible:");
+				Log.debug("  Light is visible:");
 
                 Color c = light.getColor(hit, lightRay);
-//				Log.debug("  final color   = " + c);
+				Log.debug("  final color   = " + c);
                 color = ColorUtil.blend(color, c);
             }
         }
@@ -217,9 +215,9 @@ public class RayTracerAPI {
 
         for(Shape shape: shapesList) {
             RayHit h = shape.intersect(ray);
-//			Log.debug("    Testing object " + shape + ": " + (h == null?"missed":"hit"));
+			Log.debug("    Testing object " + shape + ": " + (h == null?"missed":"hit"));
             if(h != null && h.t < ray.t) {
-//				Log.debug("      hit at t=" + h.t + ". point=" + h.point);
+				Log.debug("      hit at t=" + h.t + ". point=" + h.point);
                 hit = h;
                 ray.t = h.t;
             }
@@ -229,15 +227,14 @@ public class RayTracerAPI {
     }
 
     private Color trace(Ray ray, int depth) {
-//		Log.debug("Tracing ray " + ray);
+		Log.debug("Tracing ray " + ray);
 
         RayHit hit = findHit(ray);
 
         if(hit != null) {
             return shade(hit, depth);
         }
-
-        // missed everything. return background color
+        // missed everything return background color
         return BACKGROUND_COLOR;
     }
 
@@ -277,8 +274,8 @@ public class RayTracerAPI {
 
     public Color getPixelColor(int col, int row) {
         int bmpRow = rows-1 - row;
-//		Log.debug("Tracing ray (col=" + col + ", row=" + row + ")");
-//		Log.debug("  [Note: In bmp format this is row " + bmpRow + "]");
+		Log.debug("Tracing ray (col=" + col + ", row=" + row + ")");
+		Log.debug("  [Note: In bmp format this is row " + bmpRow + "]");
 
         if(Main.ANTI_ALIAS) {
             Ray ray = camera.getRay(col, bmpRow, 0, 0);
