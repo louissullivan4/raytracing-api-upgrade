@@ -69,7 +69,7 @@ public class Main {
 		apimade.createFinish("0.2", "0.9", "1.0", "1000", "0", "0", "0");
 		apimade.createFinish("0.2", "0.6", "1.0", "1000", "0", "0", "0");
 
-		apimade.createShape("square", 0, 1, "0,0,1", "2");
+		apimade.createShape("sphere", 4, 1, "0,0,1", "2");
 		apimade.createShape("plane", 1, 0, "0,0,1", "2.5");
 
 		apimade.render(outFile);

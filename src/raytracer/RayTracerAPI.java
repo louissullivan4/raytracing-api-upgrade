@@ -70,6 +70,7 @@ public class RayTracerAPI {
             this.draw(outFile);
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
+            System.exit(0);
         }
     }
 
@@ -82,29 +83,34 @@ public class RayTracerAPI {
      * @param fieldOfView   the field of view
      */
     public void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
-        //Created the 3d position of the eye point
-        List<Double> eyePositionList = createDoubleVals(eyePosition);
-        double eyePositionX = eyePositionList.get(0);
-        double eyePositionY = eyePositionList.get(1);
-        double eyePositionZ = eyePositionList.get(2);
-        Point eyePositionPoint  = new Point(eyePositionX, eyePositionY, eyePositionZ);
+        try {
+            //Created the 3d position of the eye point
+            List<Double> eyePositionList = createDoubleVals(eyePosition);
+            double eyePositionX = eyePositionList.get(0);
+            double eyePositionY = eyePositionList.get(1);
+            double eyePositionZ = eyePositionList.get(2);
+            Point eyePositionPoint = new Point(eyePositionX, eyePositionY, eyePositionZ);
 
-        //Created the center of scene point
-        List<Double> centerOfSceneList = createDoubleVals(centerOfScene);
-        double centerOfSceneX = centerOfSceneList.get(0);
-        double centerOfSceneY = centerOfSceneList.get(1);
-        double centerOfSceneZ = centerOfSceneList.get(2);
-        Point centerOfScenePoint  = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
+            //Created the center of scene point
+            List<Double> centerOfSceneList = createDoubleVals(centerOfScene);
+            double centerOfSceneX = centerOfSceneList.get(0);
+            double centerOfSceneY = centerOfSceneList.get(1);
+            double centerOfSceneZ = centerOfSceneList.get(2);
+            Point centerOfScenePoint = new Point(centerOfSceneX, centerOfSceneY, centerOfSceneZ);
 
-        //Created the up direction vector
-        List<Double> upDirList = createDoubleVals(upDirection);
-        double upDirListX = upDirList.get(0);
-        double upDirListY = upDirList.get(1);
-        double upDirListZ = upDirList.get(2);
-        Vector upDirListPoint  = new Vector(upDirListX, upDirListY, upDirListZ);
+            //Created the up direction vector
+            List<Double> upDirList = createDoubleVals(upDirection);
+            double upDirListX = upDirList.get(0);
+            double upDirListY = upDirList.get(1);
+            double upDirListZ = upDirList.get(2);
+            Vector upDirListPoint = new Vector(upDirListX, upDirListY, upDirListZ);
 
-        //Create the new camera using all these values
-        camera = new Camera(eyePositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
+            //Create the new camera using all these values
+            camera = new Camera(eyePositionPoint, centerOfScenePoint, upDirListPoint, fieldOfView, cols, rows);
+        } catch(NumberFormatException e){
+            Log.error("createView() parameters are incorrect.");
+            System.exit(0);
+        }
     }
 
     /**
@@ -115,35 +121,38 @@ public class RayTracerAPI {
      * @param attenuationFactor the attenuation factor
      */
     public void createLight(String lightPosition, String color, String attenuationFactor){
+        try{
+            //Created the 3d position of the light
+            List<Double> positionList = createDoubleVals(lightPosition);
+            double lightPositionX = positionList.get(0);
+            double lightPositionY = positionList.get(1);
+            double lightPositionZ = positionList.get(2);
+            Point lightPositionPoint  = new Point(lightPositionX, lightPositionY, lightPositionZ);
 
-        //Created the 3d position of the light
-        List<Double> positionList = createDoubleVals(lightPosition);
-        double lightPositionX = positionList.get(0);
-        double lightPositionY = positionList.get(1);
-        double lightPositionZ = positionList.get(2);
-        Point lightPositionPoint  = new Point(lightPositionX, lightPositionY, lightPositionZ);
+            //Created the rgb values
+            List<Float> rgbFloatList = createFloatVals(color);
+            float red = rgbFloatList.get(0);
+            float green = rgbFloatList.get(1);
+            float blue = rgbFloatList.get(2);
+            Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
 
-        //Created the rgb values
-        List<Float> rgbFloatList = createFloatVals(color);
-        float red = rgbFloatList.get(0);
-        float green = rgbFloatList.get(1);
-        float blue = rgbFloatList.get(2);
-        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
+            //Created the attenuation factor
+            List<Float> afFloatList = createFloatVals(attenuationFactor);
+            float attenuationFactorA = afFloatList.get(0);
+            float attenuationFactorB = afFloatList.get(1);
+            float attenuationFactorC = afFloatList.get(2);
 
-        //Created the attenuation factor
-        List<Float> afFloatList = createFloatVals(attenuationFactor);
-        float attenuationFactorA = afFloatList.get(0);
-        float attenuationFactorB = afFloatList.get(1);
-        float attenuationFactorC = afFloatList.get(2);
-
-        // if the light is the first light in the list create and ambient light otherwise create a normal light
-        if (lightsList.size() == 0){
-            lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+            // if the light is the first light in the list create and ambient light otherwise create a normal light
+            if (lightsList.size() == 0){
+                lightsList.add(new AmbientLight(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+            }
+            else{
+                lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
+            }
+        } catch(NumberFormatException e){
+            Log.error("createLight() parameters are incorrect.");
+            System.exit(0);
         }
-        else{
-            lightsList.add(new Light(lightPositionPoint, rgbColor, attenuationFactorA, attenuationFactorB, attenuationFactorC));
-        }
-
     }
 
     /**
@@ -154,15 +163,20 @@ public class RayTracerAPI {
      */
     public void createPigment(String pigmentType, String color){
         // Created the rgb values
-        List<Float> rgbFloatList = createFloatVals(color);
-        float red = rgbFloatList.get(0);
-        float green = rgbFloatList.get(1);
-        float blue = rgbFloatList.get(2);
-        Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
+        try{
+            List<Float> rgbFloatList = createFloatVals(color);
+            float red = rgbFloatList.get(0);
+            float green = rgbFloatList.get(1);
+            float blue = rgbFloatList.get(2);
+            Color rgbColor = new Color(ColorUtil.clamp(red), ColorUtil.clamp(green), ColorUtil.clamp(blue));
 
-        // Currently only supporting type solid.
-        if (Objects.equals(pigmentType, "solid")){
-            pigmentsList.add(new SolidPigment(rgbColor));
+            // Currently only supporting type solid.
+            if (Objects.equals(pigmentType, "solid")){
+                pigmentsList.add(new SolidPigment(rgbColor));
+            }
+        } catch(NumberFormatException e){
+            Log.error("createPigment() parameters are incorrect.");
+            System.exit(0);
         }
     }
 
@@ -178,16 +192,21 @@ public class RayTracerAPI {
      * @param refraction   the refraction
      */
     public void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
+        try{
         //Convert each string to float
-        float ambientf = Float.parseFloat(ambient);
-        float diffusef = Float.parseFloat(diffuse);
-        float specularf = Float.parseFloat(specular);
-        float shinyf = Float.parseFloat(shiny);
-        float mirrorf = Float.parseFloat(mirror);
-        float transparencyf = Float.parseFloat(transparency);
-        float refractionf = Float.parseFloat(refraction);
-        //create finish from these values
-        finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
+            float ambientf = Float.parseFloat(ambient);
+            float diffusef = Float.parseFloat(diffuse);
+            float specularf = Float.parseFloat(specular);
+            float shinyf = Float.parseFloat(shiny);
+            float mirrorf = Float.parseFloat(mirror);
+            float transparencyf = Float.parseFloat(transparency);
+            float refractionf = Float.parseFloat(refraction);
+            //create finish from these values
+            finishesList.add(new Finish(ambientf, diffusef, specularf, shinyf, mirrorf, transparencyf, refractionf));
+        } catch(NumberFormatException e){
+            Log.error("createFinish() parameters are incorrect.");
+            System.exit(0);
+        }
     }
 
     /**
@@ -200,31 +219,36 @@ public class RayTracerAPI {
      * @param shapeSize     the shape size
      */
     public void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
-        if ("sphere".equals(shapeName)) {
-            List<Double> positionList = createDoubleVals(positionPoint);
-            double shapePositionX = positionList.get(0);
-            double shapePositionY = positionList.get(1);
-            double shapePositionZ = positionList.get(2);
-            Point shapePoint = new Point(shapePositionX, shapePositionY, shapePositionZ);
+        try{
+            if ("sphere".equals(shapeName)) {
+                List<Double> positionList = createDoubleVals(positionPoint);
+                double shapePositionX = positionList.get(0);
+                double shapePositionY = positionList.get(1);
+                double shapePositionZ = positionList.get(2);
+                Point shapePoint = new Point(shapePositionX, shapePositionY, shapePositionZ);
 
-            double shapeSizeDouble = Double.parseDouble(shapeSize);
-            shape = new Sphere(shapePoint, shapeSizeDouble);
-        } else if ("plane".equals(shapeName)) {
-            List<Double> positionList = createDoubleVals(positionPoint);
-            double shapePositionX = positionList.get(0);
-            double shapePositionY = positionList.get(1);
-            double shapePositionZ = positionList.get(2);
-            float shapeSizeFloat = Float.parseFloat(shapeSize);
+                double shapeSizeDouble = Double.parseDouble(shapeSize);
+                shape = new Sphere(shapePoint, shapeSizeDouble);
+            } else if ("plane".equals(shapeName)) {
+                List<Double> positionList = createDoubleVals(positionPoint);
+                double shapePositionX = positionList.get(0);
+                double shapePositionY = positionList.get(1);
+                double shapePositionZ = positionList.get(2);
+                float shapeSizeFloat = Float.parseFloat(shapeSize);
 
-            shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
-        }
-        else{
+                shape = new Plane(shapePositionX, shapePositionY, shapePositionZ, shapeSizeFloat);
+            }
+            else{
+                Log.error("createShape() parameters are incorrect.");
+                System.exit(0);
+            }
+            shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
+            shapesList.add(shape);
+        } catch(NumberFormatException | IndexOutOfBoundsException e){
             Log.error("createShape() parameters are incorrect.");
+            System.exit(0);
         }
-        shape.setMaterial(pigmentsList.get(pigmentNum), finishesList.get(finishNum));
-        shapesList.add(shape);
     }
-
     /**
      * createDoubleVals - used to convert string to list of doubles
      *
