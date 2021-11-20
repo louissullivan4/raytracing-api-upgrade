@@ -7,16 +7,6 @@ import java.io.IOException;
  * The type Main.
  */
 public class Main {
-	private static final String USAGE = "Usage:\n"+
-			"java -cp src raytracer.Main infile bmpfile width height [-options]\n"+
-			"\n"+
-			"    where:\n"+
-			"        bmpfile   - bmp output file name\n"+
-			"        width     - image width (in pixels)\n"+
-			"        height    - image hreight (in pixels)\n"+
-			"        -aa       - use anti-aliasing (~4x slower)\n"+
-			"        -multi    - use multi-threading (good for large, anti-aliased images)";
-
 	/**
 	 * The constant DEBUG.
 	 */
@@ -30,32 +20,22 @@ public class Main {
 	 */
 	public static boolean MULTI_THREAD = false;
 
-	private static void printUsage() {
-		System.out.println(USAGE);
-	}
-
 	/**
 	 * The entry point of application.
 	 *
-	 * @param args the input arguments
+	 *
 	 * @throws IOException          the io exception
 	 * @throws InterruptedException the interrupted exception
 	 */
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-		if(args.length < 3) {
-			printUsage();
-			System.exit(0);
-		}
+
+		//HOW TO BUILD AND RUN FILE
 		//javac src/main/java/raytracer/*.java src/main/java/raytracer/pigments/*.java src/main/java/raytracer/shapes/*java
 		//java -cp src/main/java/ raytracer.Main api01.bmp 400 300
-		// required arguments
-		File outFile = new File(args[0]);
-		int cols = Integer.parseInt(args[1]);
-		int rows = Integer.parseInt(args[2]);
 
 		//test02 to API
-		RayTracerAPI apimade = new RayTracerAPI(cols, rows);
+		RayTracerAPI apimade = new RayTracerAPI();
 		apimade.createView("-5,-8,10", "0,0,0", "0,0,1", 40);
 
 		apimade.createLight("0,0,0", "1,1,1", "1,0,0.00");
@@ -72,7 +52,7 @@ public class Main {
 		apimade.createShape("sphere", 0, 1, "0,0,1", "2");
 		apimade.createShape("plane", 1, 0, "0,0,1", "2.5");
 
-		apimade.render(outFile);
+		apimade.render("api01.bmp", 400, 300);
 
 
 
@@ -107,6 +87,6 @@ public class Main {
 //
 //
 //
-//		apimade.draw(outFile);
+//		apimade.draw("api02.bmp", 400, 300);
 	}
 }

@@ -27,8 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RayTracerAPI {
 
-    private final int cols;
-    private final int rows;
+    private int cols;
+    private int rows;
     private Camera camera;
     private final ArrayList<Light> lightsList = new ArrayList<>();
     private final ArrayList<Pigment> pigmentsList = new ArrayList<>();
@@ -52,20 +52,23 @@ public class RayTracerAPI {
     /**
      * Instantiates a new Ray tracer api.
      *
-     * @param cols number of columns
-     * @param rows number of rows
+     *
+     *
      */
-    public RayTracerAPI(int cols, int rows) {
-        this.cols = cols;
-        this.rows = rows;
+    public RayTracerAPI() {
     }
 
     /**
      * Render - calls draw to create the image from the arraylists
      *
-     * @param outFile the out file
+     * @param filename the out file
+     * @param height number of columns
+     * @param width number of rows
      */
-    public void render(File outFile){
+    public void render(String filename, int width, int height){
+        rows = width;
+        cols = height;
+        File outFile = new File(filename);
         try {
             this.draw(outFile);
         } catch (IOException | InterruptedException e) {
