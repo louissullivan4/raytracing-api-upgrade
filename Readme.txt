@@ -20,7 +20,7 @@ javac src/main/java/raytracer/*.java src/main/java/raytracer/pigments/*.java src
 Usage
 =====
 After making, you can simply run the application using java as follows:
-java -cp src/main/java/ raytracer.Main api01.bmp 400 300
+java -cp src/main/java/ raytracer.Main
 
 You can also run the executable JAR file in the target folder.
 
