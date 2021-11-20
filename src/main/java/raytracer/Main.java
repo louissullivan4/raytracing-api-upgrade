@@ -47,8 +47,8 @@ public class Main {
 			printUsage();
 			System.exit(0);
 		}
-		//java -cp src raytracer.Main api03.bmp 400 300
-		//javac src/raytracer/*.java src/raytracer/pigments/*.java src/raytracer/shapes/*.java
+		//javac src/main/java/raytracer/*.java src/main/java/raytracer/pigments/*.java src/main/java/raytracer/shapes/*java
+		//java -cp src/main/java/ raytracer.Main api01.bmp 400 300
 		// required arguments
 		File outFile = new File(args[0]);
 		int cols = Integer.parseInt(args[1]);

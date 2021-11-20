@@ -15,12 +15,12 @@ You will need the command line tools 'javac' and 'java'.
 Building
 ========
 To build add this to the command line:
-javac src/raytracer/*.java src/raytracer/pigments/*.java src/raytracer/shapes/*.java
+javac src/main/java/raytracer/*.java src/main/java/raytracer/pigments/*.java src/main/java/raytracer/shapes/*java
 
 Usage
 =====
 After making, you can simply run the application using java as follows:
-java -cp src raytracer.Main api01.bmp 400 300
+java -cp src/main/java/ raytracer.Main api01.bmp 400 300
 
 You can also run the executable JAR file in the target folder.
 
