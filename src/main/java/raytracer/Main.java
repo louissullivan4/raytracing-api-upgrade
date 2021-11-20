@@ -35,7 +35,7 @@ public class Main {
 		//java -cp src/main/java/ raytracer.Main api01.bmp 400 300
 
 		//test02 to API
-		RayTracerAPI apimade = new RayTracerAPI();
+		RayTracerAPI apimade = new RayTracerAPI(400, 300);
 		apimade.createView("-5,-8,10", "0,0,0", "0,0,1", 40);
 
 		apimade.createLight("0,0,0", "1,1,1", "1,0,0.00");
@@ -52,7 +52,7 @@ public class Main {
 		apimade.createShape("sphere", 0, 1, "0,0,1", "2");
 		apimade.createShape("plane", 1, 0, "0,0,1", "2.5");
 
-		apimade.render("api01.bmp", 400, 300);
+		apimade.render("api01.bmp");
 
 
 
