@@ -4,8 +4,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>groupId</groupId>
-    <artifactId>JavaCA2</artifactId>
+    <groupId>Team12-UCC-CS2023</groupId>
+    <artifactId>JavaCA2-raytracer-upgrade</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
