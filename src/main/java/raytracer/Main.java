@@ -32,7 +32,7 @@ public class Main {
 
 		//HOW TO BUILD AND RUN FILE
 		//javac src/main/java/raytracer/*.java src/main/java/raytracer/pigments/*.java src/main/java/raytracer/shapes/*java
-		//java -cp src/main/java/ raytracer.Main api01.bmp 400 300
+		//java -cp src/main/java/ raytracer.Main
 
 		//test02 to API
 		RayTracerAPI apimade = new RayTracerAPI(400, 300);
