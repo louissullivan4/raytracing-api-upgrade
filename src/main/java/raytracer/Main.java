@@ -52,17 +52,13 @@ public class Main {
 		apimade.createShape("sphere", 0, 1, "0,0,1", "2");
 		apimade.createShape("plane", 1, 0, "0,0,1", "2.5");
 
-		apimade.render("api01.bmp");
+		apimade.render("apiMain2.bmp");
 
 
 
 //      test01 to API
-//		File outFile = new File("api01.bmp");
-//		int cols = 400;
-//		int rows = 300;
-//
-//
-//		RayTracerAPI apimade = new RayTracerAPI(cols, rows);
+
+//		RayTracerAPI apimade = new RayTracerAPI(400, 300);
 //		apimade.createView("0,0,0", "0,0,-1", "0,1,0", 30);
 //
 //		apimade.createLight("0,0,0", "0.2,0.2,0.2", "1,0,0");
@@ -87,6 +83,6 @@ public class Main {
 //
 //
 //
-//		apimade.draw("api02.bmp", 400, 300);
+//		apimade.render("apiMain1.bmp");
 	}
 }
