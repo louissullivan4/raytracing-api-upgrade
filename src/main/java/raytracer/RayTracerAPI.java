@@ -51,8 +51,8 @@ public class RayTracerAPI {
     /**
      * Instantiates a new Ray tracer api.
      *
-     * @param height number of columns
-     * @param width number of rows
+     * @param height the height of the output file
+     * @param width the width of the output file
      */
     public RayTracerAPI(int width, int height) {
         this.cols = width;
@@ -62,7 +62,7 @@ public class RayTracerAPI {
     /**
      * Render - calls draw to create the image from the arraylists
      *
-     * @param filename the out file
+     * @param filename the name of the output file
      */
     public void render(String filename){
         File outFile = new File(filename);
