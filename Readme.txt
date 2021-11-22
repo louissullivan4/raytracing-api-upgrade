@@ -1,5 +1,5 @@
 RayTracer Upgrade
-by Team 12 - 20/11/2021
+by Team 12 - 22/11/2021
 ------------------------------
 This is an updated of a raytracing legacy code by Idris Mokhtarzada. The java features
 have been updated to jdk-11, an api has been created to make the program
@@ -10,7 +10,6 @@ Requirements
 ============
 Java JDK 11.0 or higher is required to compile and run this RayTracer.
 You will need the command line tools 'javac' and 'java'.
-
 
 Building
 ========
@@ -28,7 +27,7 @@ Implemented Features
 ====================
 Basic Features:
 * shapes: spheres, planes
-* pigments: solid, checker
+* pigments: solid
 * shadows
 * reflection
 * refraction
@@ -40,5 +39,7 @@ NEW FEATURES:
     - createPigment() - create the pigments for the image
     - createShape() - add shapes to the image
     - render() - take everything from above and create the image
+*JavaDoc added for details on API
+*Maven Jar file built to run by itself
 
 
