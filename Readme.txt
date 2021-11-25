@@ -24,7 +24,7 @@ java -cp src/main/java/ raytracer.Main
 You can also run the executable JAR file in the target folder.
 
 Implemented Features
-====================
+
 Basic Features:
 * shapes: spheres, planes
 * pigments: solid
