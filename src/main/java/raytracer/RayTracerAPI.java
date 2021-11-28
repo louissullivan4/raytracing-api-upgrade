@@ -56,7 +56,7 @@ public class RayTracerAPI {
      */
     public RayTracerAPI(int width, int height) {
         if (width == 0 || height == 0){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed when creating the API object.");
         }
         this.cols = width;
         this.rows = height;
@@ -87,7 +87,7 @@ public class RayTracerAPI {
      */
     public void createView(String eyePosition, String centerOfScene, String upDirection, double fieldOfView){
         if (eyePosition == null || centerOfScene == null || upDirection == null || fieldOfView == 0){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed in createView()");
         }
         try {
             //Created the 3d position of the eye point
@@ -128,7 +128,7 @@ public class RayTracerAPI {
      */
     public void createLight(String lightPosition, String color, String attenuationFactor){
         if (lightPosition == null || color == null || attenuationFactor == null ){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed in createLight()");
         }
         try{
             //Created the 3d position of the light
@@ -172,7 +172,7 @@ public class RayTracerAPI {
      */
     public void createPigment(String pigmentType, String color){
         if (pigmentType == null || color == null ){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed in createPigment()");
         }
         // Created the rgb values
         try{
@@ -205,7 +205,7 @@ public class RayTracerAPI {
      */
     public void createFinish(String ambient, String diffuse, String specular, String shiny, String mirror, String transparency, String refraction){
         if (ambient == null || diffuse == null || specular == null || shiny == null || mirror == null || transparency == null || refraction == null ){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed in createFinish()");
         }
         try{
         //Convert each string to float
@@ -235,7 +235,7 @@ public class RayTracerAPI {
      */
     public void createShape(String shapeName, int pigmentNum, int finishNum, String positionPoint, String shapeSize){
         if (shapeName == null || positionPoint == null || shapeSize == null ){
-            throw new IllegalArgumentException("Null arguments are not allowed");
+            throw new IllegalArgumentException("Null arguments are not allowed in createShape()");
         }
         try{
             if ("sphere".equals(shapeName)) {
